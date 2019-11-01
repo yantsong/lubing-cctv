@@ -1,0 +1,32 @@
+.app-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-container {
+  margin-top: 60px;
+  flex: 1;
+}
+
+.sidebar-container {
+  min-height: calc(100vh - 60px);
+}
+
+.sidebar-container .ant-menu {
+  height: 100%;
+}
+
+.navbar {
+  height: 60px;
+  position: fixed;
+  top: 0;
+}
+
+.navbar img {
+  width: 40px;
+  height: 40px;
+}
+
+.ant-menu-submenu-title, .ant-menu-item {
+  text-align: left;
+}
