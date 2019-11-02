@@ -1,0 +1,241 @@
+<!-- te -->
+<template>
+  <div>
+    <div class="search">
+      <span>人脸库名称:</span>
+      <a-input placeholder="请输入" />
+      <a-button type="primary" @click="onSearch">
+        搜索
+      </a-button>
+    </div>
+    <div class="content">
+      <div class="top-button">
+        <a-button type="primary" @click="onSearch">
+          +新建
+        </a-button>
+      </div>
+      <div class="tableContent">
+        <a-table
+          :row-selection="rowSelection"
+          :columns="facelitle"
+          :data-source="facedata"
+          bordered
+        >
+          <template slot="operation" slot-scope="text, record">
+            <div class="editable-row-operations">
+              <span>
+                <a @click="() => ShowDeleteConfirm(record.key)">删除</a>
+              </span>
+              <span style="margin-left:20px">
+                <a @click="() => Addedit(record.key)">编辑</a>
+              </span>
+              <span style="margin-left:20px">
+                <a @click="() => Todetail(record.key)">详情</a>
+              </span>
+              <span style="margin-left:20px">
+                <a @click="() => Down(record.key)">导出</a>
+              </span>
+              <span style="margin-left:20px">
+                <a @click="() => Todetail(record.key)">关联设备</a>
+              </span>
+            </div>
+          </template>
+        </a-table>
+        <a-modal
+          v-model="addShow"
+          :confirm-loading="confirmLoading"
+          title="新建人脸库"
+          ok-text="确认"
+          cancel-text="取消"
+          @ok="Addok"
+          @cancel="Addcancel"
+        >
+          <a-form :form="Dialogform">
+            <a-form-item
+              label="人脸库名称"
+              :label-col="{ span: 5 }"
+              :wrapper-col="{ span: 18 }"
+            >
+              <a-input
+                v-decorator="[
+                  'name',
+                  { rules: [{ required: true, message: '人脸库的名字必填' }] }
+                ]"
+                placeholder="请输入"
+              />
+            </a-form-item>
+            <a-form-item
+              label="人脸库名称"
+              :label-col="{ span: 5 }"
+              :wrapper-col="{ span: 18 }"
+            >
+              <a-textarea
+                v-decorator="['content']"
+                placeholder="最多50个字符"
+                :rows="4"
+                maxlength="50"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  components: {},
+  data() {
+    return {
+      confirmLoading: false,
+      addShow: false,
+      Dialogform: this.$form.createForm(this, {
+        name: '',
+        content: ''
+      }),
+      facedata: [
+        {
+          key: '0',
+          name: 'Edward King 0',
+          describe: '32',
+          number: 'London, Park Lane no. 0',
+          creationTime: '2019-1-1-1'
+        },
+        {
+          key: '1',
+          name: 'Edward King 1',
+          describe: '32',
+          number: 'London, Park Lane no. 1',
+          creationTime: '2019-1-1-1'
+        }
+      ],
+      facelitle: [
+        {
+          title: '人脸库名称',
+          dataIndex: 'name',
+          width: '30%',
+          scopedSlots: { customRender: 'name' }
+        },
+        {
+          title: '描述',
+          dataIndex: 'describe'
+        },
+        {
+          title: '数量',
+          dataIndex: 'number'
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'creationTime'
+        },
+        {
+          title: '操作',
+          scopedSlots: { customRender: 'operation' }
+        }
+      ],
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            'selectedRows: ',
+            selectedRows
+          )
+        },
+        onSelect: (record, selected, selectedRows) => {
+          console.log(record, selected, selectedRows)
+        },
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          console.log(selected, selectedRows, changeRows)
+        }
+      }
+    }
+  },
+
+  computed: {},
+
+  created() {},
+
+  mounted() {},
+
+  methods: {
+    Down(key) {
+
+    },
+    Addcancel() {
+      this.confirmLoading = false
+    },
+    Addok() {
+      this.confirmLoading = true
+      this.Dialogform.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    },
+    Addedit(key) {
+      this.addShow = true
+      const newData = [...this.facedata]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        target.editable = true
+        this.data = newData
+      }
+    },
+    ShowDeleteConfirm() {
+      this.$confirm({
+        title: '你确定删除该人脸库?',
+        content: '你确定要删除该人脸库下的照片么？',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          console.log('OK')
+        },
+        onCancel() {
+          console.log('Cancel')
+        }
+      })
+    },
+    onSearch() {
+      console.log('onSearch')
+    },
+    Todetail(key) {
+      const newData = [...this.facedata]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        target.editable = true
+        this.data = newData
+      }
+      this.$router.push('/faceManagement/details')
+    }
+  }
+}
+</script>
+<style lang='scss' scoped>
+.search {
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding-top: 30px;
+  padding-left: 20px;
+  text-align: left;
+  .ant-input {
+    width: 200px;
+    margin: 0 20px;
+  }
+}
+.content {
+  background-color: #fff;
+  padding: 10px;
+  height: 600px;
+  .top-button {
+    text-align: right;
+    padding-right: 40px;
+  }
+  .ant-table-wrapper {
+    margin-top: 20px;
+  }
+}
+</style>

@@ -20,6 +20,7 @@
   height: 60px;
   position: fixed;
   top: 0;
+  background-color: #fff;
 }
 
 .navbar img {

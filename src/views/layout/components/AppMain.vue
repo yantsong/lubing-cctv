@@ -34,7 +34,8 @@ export default {
 }
 
 .app-content {
-  padding: 10px 0 0;
+  padding: 10px;
   flex: 1;
+  background-color: #eee
 }
 </style>

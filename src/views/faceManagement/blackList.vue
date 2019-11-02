@@ -1,6 +1,6 @@
-<!--  -->
+<!-- te -->
 <template>
-  <div>test2</div>
+  <div>blackList</div>
 </template>
 
 <script>
