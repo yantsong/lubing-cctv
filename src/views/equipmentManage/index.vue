@@ -32,7 +32,7 @@
         </template>
       </a-table>
     </div>
-    <div class="dialog">
+    <div class="dialog" v-if="visible">
       <a-modal
         title="新建任务"
         :visible="visible"

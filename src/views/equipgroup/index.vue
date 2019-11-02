@@ -2,10 +2,15 @@
   <div class="equipgroupWrap">
     <div class="pageLf">
       <a-input-search style="margin-bottom: 8px" placeholder="Search" @change="onChange"/>
-      <div :style="{position:'absolute',top:pageX+'px',left:pageY+'px'}">
-        <a-icon type="edit" @click="()=> edit(item)"/>
-        <a-icon type="minus-circle" @click="(e)=> remove(item)"/>
-        <a-icon type="plus-circle" @click="()=> append(item)"/>
+      <div
+        class="IconList"
+        :style="{position:'fixed',top:pageX+'px',left:pageY+'px'}"
+        v-if="isshow"
+      >
+        <a-icon type="edit" @click="()=> edit()" style="font-size:18px;color:#888"/>
+        <a-icon type="minus-circle" @click="(e)=> remove()" style="font-size:18px;color:#888"/>
+        <a-icon type="plus-circle" @click="()=> append()" style="font-size:18px;color:#888"/>
+        <a-icon type="pause" @click="()=> contacts()" style="font-size:18px;color:#888"/>
       </div>
       <a-tree
         showLine
@@ -43,6 +48,32 @@
           </span>
         </template>
       </a-tree>
+    </div>
+    <div class="dialog" v-if="visible">
+      <a-modal
+      width="37%"
+        title="关联设备"
+        :visible="visible"
+        @ok="handleOk"
+        :confirmLoading="confirmLoading"
+        @cancel="handleCancel"
+      >
+        <a-transfer
+        :listStyle="{
+      width: '300px',
+      height: '300px',
+    }"
+          :dataSource="mockData"
+          :titles="['待关联设备分组', '已关联设备分组']"
+          :targetKeys="targetKeys"
+          :selectedKeys="selectedKeys"
+          @change="handleChange"
+          @selectChange="handleSelectChange"
+          @scroll="handleScroll"
+          :render="item=>item.title"
+          :disabled="disabled"
+        />
+      </a-modal>
     </div>
     <div class="pageRt"></div>
   </div>
@@ -103,7 +134,28 @@ const getParentKey = (key, tree) => {
 };
 export default {
   data() {
+    const mockData = [];
+    for (let i = 0; i < 20; i++) {
+      mockData.push({
+        key: i.toString(),
+        title: `content${i + 1}`,
+        description: `description of content${i + 1}`,
+        disabled: i % 3 < 1
+      });
+    }
+
+    const oriTargetKeys = mockData
+      .filter(item => +item.key % 3 > 1)
+      .map(item => item.key);
     return {
+      visible: false,
+      confirmLoading: false,
+      mockData,
+      targetKeys: oriTargetKeys,
+      selectedKeys: ["1", "4"],
+      disabled: false,
+      checkedItem: "",
+      isshow: false,
       pageX: 0,
       pageY: 0,
       expandedKeys: [],
@@ -112,16 +164,71 @@ export default {
       gData
     };
   },
+  created() {},
   methods: {
+    handleChange(nextTargetKeys, direction, moveKeys) {
+      this.targetKeys = nextTargetKeys;
+      console.log("targetKeys: ", nextTargetKeys);
+      console.log("direction: ", direction);
+      console.log("moveKeys: ", moveKeys);
+    },
+    handleSelectChange(sourceSelectedKeys, targetSelectedKeys) {
+      this.selectedKeys = [...sourceSelectedKeys, ...targetSelectedKeys];
+
+      console.log("sourceSelectedKeys: ", sourceSelectedKeys);
+      console.log("targetSelectedKeys: ", targetSelectedKeys);
+    },
+    handleScroll(direction, e) {
+      console.log("direction:", direction);
+      console.log("target:", e.target);
+    },
+    searchOption(option, arr, type = "dele") {
+      for (let s = 0; s < arr.length; s++) {
+        if (arr[s].key === option) {
+          if (type === "dele") {
+            arr.splice(s, 1);
+          } else if (type === "edit") {
+            this.$set(arr, s, {
+              title: "",
+              key: "12121212",
+              scopedSlots: { title: "title" }
+            });
+          }
+          break;
+        } else if (arr[s].children && arr[s].children.length > 0) {
+          this.searchOption(option, arr[s].children);
+        } else {
+          continue;
+        }
+      }
+    },
     onExpand(expandedKeys) {
-      console.log("expandedKeys: ", expandedKeys);
+      this.searchOption(expandedKeys, gData);
       this.expandedKeys = expandedKeys;
       this.autoExpandParent = false;
     },
+    // 删除
+    remove(data) {
+      this.searchOption(this.checkedItem, gData);
+    },
+    // 编辑
+    edit(data) {
+      this.searchOption(this.checkedItem, gData, "edit");
+    },
+    // 关联设备
+    contacts(){
+        this.visible=true;
+    },
+    handleOk(){},
+     handleCancel() {
+      this.visible = false;
+    },
     selectNodes(e, d) {
-      console.log("d: ", d);
-      this.pageX = d.pageX;
-      this.pageY = d.pageY;
+      console.log("e: ", e);
+      this.checkedItem = e[0];
+      this.isshow = true;
+      this.pageX = d.nativeEvent.pageX;
+      this.pageY = d.nativeEvent.pageY;
     },
     onChange(e) {
       const value = e.target.value;
@@ -148,8 +255,13 @@ export default {
   margin: 50px;
   display: flex;
   .pageLf {
-    flex: 1 1 30%;
+    flex: 1 1 15%;
     border: 1px solid #f1f1f1;
+    .IconList {
+      display: flex;
+      width: 100px;
+      justify-content: space-between;
+    }
     .treeWrap {
       margin-top: 20px;
     }
