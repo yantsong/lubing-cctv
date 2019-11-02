@@ -78,20 +78,20 @@ export default {
     },
     beforeUpload(file) {
       // 限制图片 格式、size、分辨率
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/bmg'
       // const isJPEG  = file.type === 'image/jpeg';
-      const isGIF = file.type === 'image/gif'
+      const isGIF = file.type === 'image/JPG'
       const isPNG = file.type === 'image/png'
       if (!(isJPG || isGIF || isPNG)) {
         this.$message.error('只能上传JPG 、JPEG 、GIF、 PNG格式的图片~')
         return false
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('只能上传大小2M以内的图片~')
+      const isLt500k = file.size / 1024 < 500
+      if (!isLt500k) {
+        this.$message.error('只能上传大小500K 以内的图片~')
       }
 
-      return (isJPG || isGIF || isPNG) && isLt2M && this.checkImageWH(file, 1268, 950)
+      return (isJPG || isGIF || isPNG) && isLt500k && this.checkImageWH(file, 800, 600)
     },
     handleCancel() {
       this.previewVisible = false
