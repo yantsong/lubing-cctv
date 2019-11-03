@@ -6,7 +6,19 @@
         4.大小：50K-500K 5.批量批量添加必须是zip包
       </p>
     </div>
+
     <div class="clearfix">
+      <a-upload
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        list-type="picture"
+        :file-list="fileListzip"
+        name="file"
+        class="upload-list-inline"
+        :before-upload="beforeUploadzip"
+        @change="handleChangezip"
+      >
+        <a-button> <a-icon type="upload" />批量上传</a-button>
+      </a-upload>
       <a-upload
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         list-type="picture-card"
@@ -39,9 +51,11 @@ export default {
           uid: '-1',
           name: 'xxx.png',
           status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+          url:
+            'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
         }
-      ]
+      ],
+      fileListzip: []
     }
   },
   watch: {},
@@ -63,7 +77,7 @@ export default {
             if (width && this.width > width) {
               self.$message.error('请上传宽为' + width + '以下的图片')
               reject()
-            } else if (height && this.height >height) {
+            } else if (height && this.height > height) {
               self.$message.error('请上传高为' + height + '以下的图片')
               reject()
             } else {
@@ -91,7 +105,11 @@ export default {
         this.$message.error('只能上传大小500K 以内的图片~')
       }
 
-      return (isJPG || isGIF || isPNG) && isLt500k && this.checkImageWH(file, 800, 600)
+      return (
+        (isJPG || isGIF || isPNG) &&
+        isLt500k &&
+        this.checkImageWH(file, 800, 600)
+      )
     },
     handleCancel() {
       this.previewVisible = false
@@ -101,7 +119,6 @@ export default {
       this.previewVisible = true
     },
     handleChange(info) {
-      console.log(info,'123')
       if (info.file.status === 'uploading') {
         this.fileList = info.fileList
         this.loading = true
@@ -113,6 +130,20 @@ export default {
           this.imageUrl = imageUrl
           this.loading = false
         })
+      }
+    },
+    beforeUploadzip(file) {
+      const isZIP = file.type === 'application/zip'
+      if (!isZIP) {
+        this.$message.error('只能上传ZIP压缩文件~')
+        return false
+      }
+    },
+    handleChangezip(info) {
+      if (info.file.status === 'uploading') {
+        this.fileListzip = info.fileList
+        this.loading = true
+        return
       }
     }
   }

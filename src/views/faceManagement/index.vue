@@ -36,7 +36,7 @@
                 <a @click="() => Down(record.key)">导出</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Todetail(record.key)">关联设备</a>
+                <a @click="() => ToAssociated(record.key)">关联设备</a>
               </span>
             </div>
           </template>
@@ -78,6 +78,28 @@
             </a-form-item>
           </a-form>
         </a-modal>
+        <a-modal
+          v-model="associatedShow"
+          title="关联设备分组"
+          ok-text="确认"
+          cancel-text="取消"
+        >
+          <p style="text-align: center">
+            望春园1号楼人脸库
+          </p>
+          <div>
+            <a-transfer
+              :data-source="mockData"
+              :titles="['Source', 'Target']"
+              :target-keys="targetKeys"
+              :selected-keys="selectedKeys"
+              :render="item => item.title"
+              @change="handleChange"
+              @selectChange="handleSelectChange"
+              @scroll="handleScroll"
+            />
+          </div>
+        </a-modal>
       </div>
     </div>
   </div>
@@ -89,11 +111,16 @@ export default {
   data() {
     return {
       confirmLoading: false,
+      associatedShow: false,
       addShow: false,
       Dialogform: this.$form.createForm(this, {
         name: '',
         content: ''
       }),
+      mockData: [],
+      oriTargetKeys: [],
+      targetKeys: [],
+      selectedKeys: ['1', '4'],
       facedata: [
         {
           key: '0',
@@ -154,14 +181,43 @@ export default {
 
   computed: {},
 
-  created() {},
+  created() {
+    for (let i = 0; i < 20; i++) {
+      this.mockData.push({
+        key: i.toString(),
+        title: `content${i + 1}`,
+        description: `description of content${i + 1}`,
+        disabled: i % 3 < 1
+      })
+      this.oriTargetKeys=this.mockData.filter(item => +item.key % 3 > 1).map(item => item.key)
+      this.targetKeys=this.oriTargetKeys
+    }
+  },
 
   mounted() {},
 
   methods: {
-    Down(key) {
-
+    handleChange(nextTargetKeys, direction, moveKeys) {
+      this.targetKeys = nextTargetKeys
+      console.log(this.mockData)
+      console.log('targetKeys: ', nextTargetKeys)
+      console.log('direction: ', direction)
+      console.log('moveKeys: ', moveKeys)
     },
+    handleSelectChange(sourceSelectedKeys, targetSelectedKeys) {
+      this.selectedKeys = [...sourceSelectedKeys, ...targetSelectedKeys]
+
+      console.log('sourceSelectedKeys: ', sourceSelectedKeys)
+      console.log('targetSelectedKeys: ', targetSelectedKeys)
+    },
+    handleScroll(direction, e) {
+      console.log('direction:', direction)
+      console.log('target:', e.target)
+    },
+    ToAssociated(key) {
+      this.associatedShow = true
+    },
+    Down(key) {},
     Addcancel() {
       this.confirmLoading = false
     },
