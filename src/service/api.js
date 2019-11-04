@@ -6,5 +6,6 @@ import http from '../utils/request'
  */
 export const getEventList = parmas => http({
   url: '/cctv/event/eventList',
+  method: 'get',
   parmas
 })
