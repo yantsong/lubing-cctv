@@ -10,7 +10,7 @@
         </a-form-item>
         <a-form-item label="在线状态">
           <a-select default-value="在线" style="width: 120px" @change="handleChange">
-            <a-select-option v-for="item in statusList" :value="item.value" :key="item.id">
+            <a-select-option v-for="item in statusList" :key="item.id" :value="item.value">
 {{ item.value }}
 </a-select-option>
           </a-select>
@@ -40,7 +40,7 @@
       <a-modal
         title="新建任务"
         :visible="visible"
-        :confirmLoading="confirmLoading"
+        :confirm-loading="confirmLoading"
         @ok="handleOk"
         @cancel="handleCancel"
       >
@@ -62,6 +62,7 @@
   </div>
 </template>
 <script>
+import { getEventList } from '@/service/api'
 export default {
   data() {
     return {
@@ -150,6 +151,13 @@ export default {
         })
       }
     }
+  },
+  created() {
+    getEventList().then(
+      res => {
+        console.log(res)
+      }
+    )
   },
   methods: {
     onOk(value) {
