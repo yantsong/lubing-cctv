@@ -23,8 +23,8 @@
           <a-select default-value="正常" style="width: 120px" @change="handleChange">
             <a-select-option
               v-for="item in eventList"
-              :key="item.id"
               :value="item.value"
+              :key="item.id"
             >
 {{ item.value }}
 </a-select-option>
@@ -51,8 +51,8 @@
   </div>
 </template>
 <script>
-import { TreeSelect } from 'ant-design-vue'
-import moment from 'moment'
+import { TreeSelect } from 'ant-design-vue';
+import moment from 'moment';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT
 const treeData = [
   {

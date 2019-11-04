@@ -170,20 +170,25 @@ export const constantRouterMap = [
       title: '测试2',
       icon: 'international'
     },
-    children: [
-      {
-        path: 'ceshi-1',
-        component: () => import('@/views/ceshi1/ceshi1'),
-        name: 'Ceshi-1',
-        meta: { title: '测试-21', noCache: true },
-        hidden: true
+    children: [{
+      path: 'ceshi-1',
+      component: () => import('@/views/ceshi1/ceshi1'),
+      name: 'Ceshi-1',
+      meta: {
+        title: '测试-21',
+        noCache: true
       },
-      {
-        path: 'ceshi-2',
-        component: () => import('@/views/ceshi1/ceshi2'),
-        name: 'YicaiList',
-        meta: { title: '测试-22', icon: 'list' }
+      hidden: true
+    },
+    {
+      path: 'ceshi-2',
+      component: () => import('@/views/ceshi1/ceshi2'),
+      name: 'YicaiList',
+      meta: {
+        title: '测试-22',
+        icon: 'list'
       }
+    }
     ]
   }
 ]

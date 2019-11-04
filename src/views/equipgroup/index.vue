@@ -1,36 +1,16 @@
 <template>
   <div class="equipgroupWrap">
-    <div class="pageLf ">
-      <a-input-search
-        style="margin-bottom: 8px"
-        placeholder="Search"
-        @change="onChange"
-      />
+    <div class="pageLf">
+      <a-input-search style="margin-bottom: 8px" placeholder="Search" @change="onChange" />
       <div
         v-if="isshow"
         class="IconList"
-        :style="{ position: 'fixed', top: pageY + 'px', left: pageX+30 + 'px' }"
+        :style="{position:'fixed',top:pageX+'px',left:pageY+'px'}"
       >
-        <a-icon
-          type="edit"
-          style="font-size:18px;color:#888"
-          @click="() => edit()"
-        />
-        <a-icon
-          type="minus-circle"
-          style="font-size:18px;color:#888"
-          @click="e => remove()"
-        />
-        <a-icon
-          type="plus-circle"
-          style="font-size:18px;color:#888"
-          @click="() => append()"
-        />
-        <a-icon
-          type="pause"
-          style="font-size:18px;color:#888"
-          @click="() => contacts()"
-        />
+        <a-icon type="edit" style="font-size:18px;color:#888" @click="()=> edit()" />
+        <a-icon type="minus-circle" style="font-size:18px;color:#888" @click="(e)=> remove()" />
+        <a-icon type="plus-circle" style="font-size:18px;color:#888" @click="()=> append()" />
+        <a-icon type="pause" style="font-size:18px;color:#888" @click="()=> contacts()" />
       </div>
       <a-tree
         show-line
@@ -45,12 +25,10 @@
         <template slot="item" slot-scope="item">
           <span v-if="item.title.indexOf(searchValue) > -1">
             {{ item.title.substr(0, title.indexOf(searchValue)) }}
-            <span style="color: #f50">{{ searchValue }}</span>
-            {{
-              item.title.substr(
-                item.title.indexOf(searchValue) + searchValue.length
-              )
-            }}
+            <span
+              style="color: #f50"
+            >{{ searchValue }}</span>
+            {{ item.title.substr(item.title.indexOf(searchValue) + searchValue.length) }}
           </span>
           <span v-else>
             {{ item.title }}
@@ -73,7 +51,7 @@
     </div>
     <div v-if="visible" class="dialog">
       <a-modal
-        width="37%"
+      width="37%"
         title="关联设备"
         :visible="visible"
         :confirm-loading="confirmLoading"
@@ -81,15 +59,15 @@
         @cancel="handleCancel"
       >
         <a-transfer
-          :list-style="{
-            width: '300px',
-            height: '300px'
-          }"
+        :list-style="{
+      width: '300px',
+      height: '300px',
+    }"
           :data-source="mockData"
           :titles="['待关联设备分组', '已关联设备分组']"
           :target-keys="targetKeys"
           :selected-keys="selectedKeys"
-          :render="item => item.title"
+          :render="item=>item.title"
           :disabled="disabled"
           @change="handleChange"
           @selectChange="handleSelectChange"
@@ -225,7 +203,6 @@ export default {
       }
     },
     onExpand(expandedKeys) {
-      this.isshow = false
       this.searchOption(expandedKeys, gData)
       this.expandedKeys = expandedKeys
       this.autoExpandParent = false
@@ -240,18 +217,18 @@ export default {
     },
     // 关联设备
     contacts() {
-      this.visible = true
+      this.visible=true
     },
     handleOk() {},
     handleCancel() {
       this.visible = false
     },
     selectNodes(e, d) {
-      console.log(d,d.node.$el.offsetLeft ,d.node.$el.offsetTop,d.nativeEvent.offsetX)
+      console.log('e: ', e)
       this.checkedItem = e[0]
       this.isshow = true
-      this.pageX = d.nativeEvent.x-d.nativeEvent.offsetX-160
-      this.pageY = d.nativeEvent.y-d.nativeEvent.offsetY
+      this.pageX = d.nativeEvent.pageX
+      this.pageY = d.nativeEvent.pageY
     },
     onChange(e) {
       const value = e.target.value
@@ -291,9 +268,6 @@ export default {
   }
   .pageRt {
     flex: 1 1 70%;
-  }
-  .a-tree{
-    position: relative;
   }
 }
 </style>

@@ -32,8 +32,8 @@
   </div>
 </template>
 <script>
-import { TreeSelect } from 'ant-design-vue'
-import moment from 'moment'
+import { TreeSelect } from 'ant-design-vue';
+import moment from 'moment';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT
 const treeData = [
   {
