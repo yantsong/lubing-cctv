@@ -10,10 +10,10 @@ export const getEventList = parmas => http({
   parmas
 })
 
-export const searchFaceDB = parmas => http({
-  url: '/cctv/face/searchFaceDB',
+export const searchFaceDB = data => http({
+  url: '/cctv/device/deviceDetail',
   method: 'post',
-  parmas
+  data
 })
 
 export const login = data => http({

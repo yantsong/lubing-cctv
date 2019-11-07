@@ -183,7 +183,10 @@ export default {
   computed: {},
 
   created() {
-    searchFaceDB().then(res => {
+    const value={
+      deviceId: '1'
+    }
+    searchFaceDB(value).then(res => {
       console.log(res)
     })
     for (let i = 0; i < 20; i++) {
