@@ -8,7 +8,6 @@
       theme="dark"
       @click="clickLink"
 >
-    <!-- <p>hehe</p> -->
       <template v-for="item in permission_routers">
         <a-menu-item v-if="!item.children" :key="item.key">
           <a-icon type="pie-chart" />
@@ -59,6 +58,7 @@ export default {
       return validateURL(routePath)
     },
     clickLink(path) {
+      console.log(path)
       path['key'] && this.$router.push({ name: path['key'] })
     }
   }

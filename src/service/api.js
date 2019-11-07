@@ -9,3 +9,15 @@ export const getEventList = parmas => http({
   method: 'get',
   parmas
 })
+
+export const searchFaceDB = parmas => http({
+  url: '/cctv/face/searchFaceDB',
+  method: 'post',
+  parmas
+})
+
+export const login = data => http({
+  url: '/cctv/user/login',
+  method: 'post',
+  data
+})

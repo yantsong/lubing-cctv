@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { searchFaceDB } from '@/service/api'
 export default {
   components: {},
   data() {
@@ -182,6 +183,9 @@ export default {
   computed: {},
 
   created() {
+    searchFaceDB().then(res => {
+      console.log(res)
+    })
     for (let i = 0; i < 20; i++) {
       this.mockData.push({
         key: i.toString(),

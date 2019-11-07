@@ -159,7 +159,16 @@ export const constantRouterMap = [
     }
     ]
   },
-
+  {
+    path: '/login',
+    name: 'login',
+    key: 'login',
+    meta: {
+      title: 'login',
+      icon: 'international'
+    },
+    component: () => import('@/views/login/index')
+  },
   {
     path: '/ceshi1',
     component: Layout,

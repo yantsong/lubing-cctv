@@ -7,10 +7,10 @@
             style="width: 300px"
             :tree-data="treeData"
             :value="value"
-            treeCheckable
-            @change="onChange"
+            tree-checkable
             :show-checked-strategy="SHOW_PARENT"
             search-placeholder="Please select"
+            @change="onChange"
           />
         </a-form-item>
         <a-form-item label="查询时间段:">
@@ -59,8 +59,8 @@
   </div>
 </template>
 <script>
-import { TreeSelect } from 'ant-design-vue';
-import moment from 'moment';
+import { TreeSelect } from 'ant-design-vue'
+import moment from 'moment'
 const SHOW_PARENT = TreeSelect.SHOW_PARENT
 const treeData = [
   {
