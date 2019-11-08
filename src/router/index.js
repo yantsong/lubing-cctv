@@ -3,14 +3,21 @@ import Router from 'vue-router'
 import Layout from '@/views/layout/Layout'
 
 Vue.use(Router)
-// export const constantRouterMap = [
-//   {
-//     path: '/login',
-//     component: Layout,
-//     name: 'Login'
-//   }
-// ]
+// 静态 无论权限 均可访问
 export const constantRouterMap = [
+  {
+    path: '/login',
+    name: 'login',
+    key: 'login',
+    meta: {
+      title: 'login',
+      icon: 'international'
+    },
+    component: () => import('@/views/login/index')
+  }
+]
+// 异步加载的路由
+export const asyncRouterMap = [
   {
     path: '/faceManagement',
     component: Layout,
@@ -155,47 +162,6 @@ export const constantRouterMap = [
       meta: {
         title: '设备分组',
         icon: 'tool'
-      }
-    }
-    ]
-  },
-  {
-    path: '/login',
-    name: 'login',
-    key: 'login',
-    meta: {
-      title: 'login',
-      icon: 'international'
-    },
-    component: () => import('@/views/login/index')
-  },
-  {
-    path: '/ceshi1',
-    component: Layout,
-    redirect: '/ceshi1/ceshi1',
-    name: 'ceshi1',
-    alwaysShow: true,
-    meta: {
-      title: '测试2',
-      icon: 'international'
-    },
-    children: [{
-      path: 'ceshi-1',
-      component: () => import('@/views/ceshi1/ceshi1'),
-      name: 'Ceshi-1',
-      meta: {
-        title: '测试-21',
-        noCache: true
-      },
-      hidden: true
-    },
-    {
-      path: 'ceshi-2',
-      component: () => import('@/views/ceshi1/ceshi2'),
-      name: 'YicaiList',
-      meta: {
-        title: '测试-22',
-        icon: 'list'
       }
     }
     ]

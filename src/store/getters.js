@@ -3,7 +3,7 @@ const getters = {
   language: state => state.app.language,
   size: state => state.app.size,
   device: state => state.app.device,
-  permission_routers: state => state.permission.routers
+  permission_routers: state => state.permission.asyncRouter
 
 }
 export default getters

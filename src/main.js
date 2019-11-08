@@ -4,8 +4,8 @@ import Antd from 'ant-design-vue'
 import router from './router'
 import store from './store'
 import '@/styles/index.scss' // global css
-
 import 'ant-design-vue/dist/antd.css'
+import './utils/permission'
 Vue.use(Antd)
 Vue.config.productionTip = false
 // router.addRoutes(asyncRouterMap)
