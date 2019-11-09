@@ -17,7 +17,9 @@ service.interceptors.response.use(function(response) {
     return response
   }
 }, function(error) {
+  Router.push({ name: 'login' })
   // Do something with response error
-  return Promise.reject(error)
+  // return Promise.reject(error)
+  console.log(error,'12222')
 })
 export default service
