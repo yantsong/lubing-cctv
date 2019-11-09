@@ -32,7 +32,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/faceManagement/index'),
         name: 'query',
         meta: { title: '查询', icon: 'edit' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'details',

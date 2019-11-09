@@ -184,7 +184,10 @@ export default {
 
   created() {
     const value={
-      deviceId: '1'
+      deviceGroupName: '',
+      deviceGroupStatus: '',
+      pageSize: '',
+      pageNo: ''
     }
     searchFaceDB(value).then(res => {
       console.log(res)
