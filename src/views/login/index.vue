@@ -21,7 +21,7 @@ export default {
     }
     login(value).then(res => {
       if (res.data.code=== 'A00000') {
-        this.$router.push({ name: 'faceManagement' })
+        this.$router.push({ name: 'query' })
       }
     })
   },

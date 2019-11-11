@@ -28,7 +28,7 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: '/',
+        path: '/query',
         component: () => import('@/views/faceManagement/index'),
         name: 'query',
         meta: { title: '查询', icon: 'edit' },

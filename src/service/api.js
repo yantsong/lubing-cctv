@@ -11,7 +11,7 @@ export const getEventList = parmas => http({
 })
 
 export const searchFaceDB = data => http({
-  url: '/cctv/device/deviceGroupList',
+  url: '/cctv/dface/searchFaceDB',
   method: 'post',
   data
 })
