@@ -3,14 +3,12 @@ import Router from 'vue-router'
 import Layout from '@/views/layout/Layout'
 
 Vue.use(Router)
-// export const constantRouterMap = [
-//   {
-//     path: '/login',
-//     component: Layout,
-//     name: 'Login'
-//   }
-// ]
+
 export const constantRouterMap = [
+  {
+    path: '/login',
+    component: () => import('@/views/login/index')
+  },
   {
     path: '/faceManagement',
     component: Layout,
