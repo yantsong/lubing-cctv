@@ -19,7 +19,7 @@
           :row-selection="rowSelection"
           :columns="facelitle"
           :data-source="facedata"
-          bordered
+          :row-key="record => record.dbId"
         >
           <template slot="operation" slot-scope="text, record">
             <div class="editable-row-operations">
@@ -127,17 +127,17 @@ export default {
       facelitle: [
         {
           title: '人脸库名称',
-          dataIndex: 'groupName',
+          dataIndex: 'dbName',
           width: '30%',
           scopedSlots: { customRender: 'name' }
         },
         {
           title: '描述',
-          dataIndex: 'groupDesc'
+          dataIndex: 'dbDesc'
         },
         {
           title: '数量',
-          dataIndex: 'number'
+          dataIndex: 'faceAmount'
         },
         {
           title: '创建时间',
@@ -169,9 +169,7 @@ export default {
   computed: {},
 
   created() {
-    const value={
-      dbName: ''
-    }
+    const value={}
     searchFaceDB(value).then(res => {
       console.log(res)
       this.facedata=res.data.data
