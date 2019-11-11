@@ -38,7 +38,7 @@
 
 <script>
 import { isvalidUsername } from "@/utils/validate";
-import { adminApi } from "@/views/api/server.js";
+import { adminApi } from "@/api/server.js";
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
