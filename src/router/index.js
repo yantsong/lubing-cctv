@@ -3,23 +3,34 @@ import Router from 'vue-router'
 import Layout from '@/views/layout/Layout'
 
 Vue.use(Router)
+export const constantRouterMap2=[
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+  }
+]
 
 export const constantRouterMap = [
   {
     path: '/login',
-    component: () => import('@/views/login/index')
+    component: () => import('@/views/login/index'),
+    hidden:true,
+    meta: {
+      title: '登录'
+    },
   },
   {
-    path: '/faceManagement',
+    path: '/',
     component: Layout,
     name: 'faceManagement',
+    redirect: '/faceManagement',
     alwaysShow: true,
     meta: {
       title: '人脸库管理'
     },
     children: [
       {
-        path: '/',
+        path: 'faceManagement',
         component: () => import('@/views/faceManagement/index'),
         name: 'query',
         meta: { title: '查询', icon: 'edit' },
@@ -192,5 +203,5 @@ export const constantRouterMap = [
 ]
 export default new Router({
   // mode: 'history', // require service support
-  routes: constantRouterMap
+  routes:constantRouterMap,constantRouterMap2
 })

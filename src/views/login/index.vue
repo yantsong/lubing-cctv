@@ -47,7 +47,7 @@ export default {
   data() {
     return {
           hasErrors,
-      form: this.$form.createForm(this, { name: 'horizontal_login',password:'' }),
+      form: this.$form.createForm(this, { name: 'admin',password:'c3284d0f94606de1fd2af172aba15bf3' }),
     };
   },
   methods: {
@@ -63,12 +63,14 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
+        console.log('values: ', values);
         if (!err) {
           console.log('Received values of form: ', values);
         }
         let Msg={
-            username:this.form.name,
-            password:this.form.password
+            username:values.userName,
+            // password:values.password
+            password:'c3284d0f94606de1fd2af172aba15bf3'
         }
         adminApi.LogIn(Msg).then(res=>{
             if(res.code=='A00000'){

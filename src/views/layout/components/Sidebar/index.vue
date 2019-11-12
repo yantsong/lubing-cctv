@@ -8,13 +8,12 @@
       theme="dark"
       @click="clickLink"
 >
-    <!-- <p>hehe</p> -->
       <template v-for="item in permission_routers">
-        <a-menu-item v-if="!item.children" :key="item.key">
+        <a-menu-item v-if="!item.children&&!item.hidden" :key="item.key">
           <a-icon type="pie-chart" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
-        <sub-menu v-else :key="item.name" :menu-info="item" />
+        <sub-menu v-else-if="!item.hidden" :key="item.name" :menu-info="item" />
       </template>
     </a-menu>
   </div>

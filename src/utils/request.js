@@ -43,18 +43,18 @@ request.interceptors.response.use(
     if(cookieValue){
       sessionStorage.setItem('cookie',cookieValue[0])
     }
-    if ((res.ret != undefined && !res.ret) || (res.code != undefined && res.code != 1)) {
+    if (res.code == 'E10001') {
       message.error(res.msg,2,function(){
         
       })
-      if (res.msg == "未登录，不能访问") {
-        setTimeout(() => {
-          router.push('/login')
-        }, 2000);
-      }
+      // if (res.msg == "未登录，不能访问") {
+      //   setTimeout(() => {
+      //     router.push('/login')
+      //   }, 2000);
+      // }
       return Promise.reject(res)
     }
-    return res.data
+    return res
 
   },
   error => {
