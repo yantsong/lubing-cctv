@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { searchFaceDB } from '@/service/api'
+import { searchFaceDB } from '@/api/event'
 export default {
   components: {},
   data() {

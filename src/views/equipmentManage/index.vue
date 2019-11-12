@@ -91,7 +91,6 @@
   </div>
 </template>
 <script>
-import { getEventList } from '@/service/api'
 export default {
   data() {
     return {
@@ -182,9 +181,6 @@ export default {
     }
   },
   created() {
-    getEventList().then(res => {
-      console.log(res)
-    })
   },
   methods: {
     onOk(value) {

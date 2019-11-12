@@ -1,4 +1,6 @@
+// 关于event的api
 import http from '../utils/request'
+
 /**
  * @description: 事件列表
  * @param {Object} {exp:'xxx'}
