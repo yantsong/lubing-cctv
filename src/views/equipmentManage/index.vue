@@ -6,24 +6,42 @@
           <a-input placeholder="请输入设备名称" />
         </a-form-item>
         <a-form-item label="接入时间:">
-         <a-date-picker show-time placeholder="Select Time" @change="onChange" @ok="onOk" />
+          <a-date-picker
+            show-time
+            placeholder="Select Time"
+            @change="onChange"
+            @ok="onOk"
+          />
         </a-form-item>
         <a-form-item label="在线状态">
-          <a-select default-value="在线" style="width: 120px" @change="handleChange">
-            <a-select-option v-for="item in statusList" :key="item.id" :value="item.value">
-{{ item.value }}
-</a-select-option>
+          <a-select
+            default-value="在线"
+            style="width: 120px"
+            @change="handleChange"
+          >
+            <a-select-option
+              v-for="item in statusList"
+              :key="item.id"
+              :value="item.value"
+            >
+              {{ item.value }}
+            </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit">
-查询
-</a-button>
+            查询
+          </a-button>
         </a-form-item>
       </a-form>
     </div>
     <div class="tableContent">
-      <a-table :row-selection="rowSelection" :columns="columns" :data-source="tableData" bordered>
+      <a-table
+        :row-selection="rowSelection"
+        :columns="columns"
+        :data-source="tableData"
+        bordered
+      >
         <template slot="operation" slot-scope="text, record">
           <div class="editable-row-operations">
             <span>
@@ -45,16 +63,27 @@
         @cancel="handleCancel"
       >
         <a-form :form="Dialogform">
-          <a-form-item label="设备ID" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-              12345
+          <a-form-item
+            label="设备ID"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 12 }"
+          >
+            12345
           </a-form-item>
-          <a-form-item label="设备名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-               <a-input
-                     v-decorator="['name', { rules: [{ required: true, message: '请输入设备名称' }] }]"
-                />
+          <a-form-item
+            label="设备名称"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 18 }"
+          >
+            <a-input
+              v-decorator="[
+                'name',
+                { rules: [{ required: true, message: '请输入设备名称' }] }
+              ]"
+            />
           </a-form-item>
-          <a-form-item :wrapper-col="{ span: 18, offset: 5}">
-               <a-textarea placeholder="最多50个字符" :rows="4" maxlength="50" />
+          <a-form-item :wrapper-col="{ span: 18, offset: 5 }">
+            <a-textarea placeholder="最多50个字符" :rows="4" maxlength="50" />
           </a-form-item>
         </a-form>
       </a-modal>
@@ -153,11 +182,9 @@ export default {
     }
   },
   created() {
-    getEventList().then(
-      res => {
-        console.log(res)
-      }
-    )
+    getEventList().then(res => {
+      console.log(res)
+    })
   },
   methods: {
     onOk(value) {
@@ -174,10 +201,10 @@ export default {
           console.log('Received values of form: ', values)
         }
       })
-    //   setTimeout(() => {
-    //     this.visible = false;
-    //     this.confirmLoading = false;
-    //   }, 2000);
+      //   setTimeout(() => {
+      //     this.visible = false;
+      //     this.confirmLoading = false;
+      //   }, 2000);
     },
     Todetail(key) {
       const newData = [...this.tableData]

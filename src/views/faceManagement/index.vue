@@ -19,7 +19,7 @@
           :row-selection="rowSelection"
           :columns="facelitle"
           :data-source="facedata"
-          bordered
+          :row-key="record => record.dbId"
         >
           <template slot="operation" slot-scope="text, record">
             <div class="editable-row-operations">
@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { searchFaceDB } from '@/service/api'
 export default {
   components: {},
   data() {
@@ -122,35 +123,21 @@ export default {
       targetKeys: [],
       selectedKeys: ['1', '4'],
       facedata: [
-        {
-          key: '0',
-          name: 'Edward King 0',
-          describe: '32',
-          number: 'London, Park Lane no. 0',
-          creationTime: '2019-1-1-1'
-        },
-        {
-          key: '1',
-          name: 'Edward King 1',
-          describe: '32',
-          number: 'London, Park Lane no. 1',
-          creationTime: '2019-1-1-1'
-        }
       ],
       facelitle: [
         {
           title: '人脸库名称',
-          dataIndex: 'name',
+          dataIndex: 'dbName',
           width: '30%',
           scopedSlots: { customRender: 'name' }
         },
         {
           title: '描述',
-          dataIndex: 'describe'
+          dataIndex: 'dbDesc'
         },
         {
           title: '数量',
-          dataIndex: 'number'
+          dataIndex: 'faceAmount'
         },
         {
           title: '创建时间',
@@ -182,6 +169,11 @@ export default {
   computed: {},
 
   created() {
+    const value={}
+    searchFaceDB(value).then(res => {
+      console.log(res)
+      this.facedata=res.data.data
+    })
     for (let i = 0; i < 20; i++) {
       this.mockData.push({
         key: i.toString(),
@@ -199,8 +191,6 @@ export default {
   methods: {
     handleChange(nextTargetKeys, direction, moveKeys) {
       this.targetKeys = nextTargetKeys
-      console.log(this.mockData)
-      console.log('targetKeys: ', nextTargetKeys)
       console.log('direction: ', direction)
       console.log('moveKeys: ', moveKeys)
     },

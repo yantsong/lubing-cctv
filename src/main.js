@@ -5,10 +5,9 @@ import router from './router'
 import store from './store'
 import '@/styles/index.scss' // global css
 import 'ant-design-vue/dist/antd.css'
-console.log(App,Antd)
+import './utils/permission'
 Vue.use(Antd)
 Vue.config.productionTip = false
-console.log(router,'router')
 // router.addRoutes(asyncRouterMap)
 // debugger
 

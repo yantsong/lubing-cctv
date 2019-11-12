@@ -1,26 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/views/layout/Layout'
-
 Vue.use(Router)
-export const constantRouterMap2=[
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-  }
-]
-
+// 静态 无论权限 均可访问
 export const constantRouterMap = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden:true,
+    name: 'login',
+    key: 'login',
     meta: {
-      title: '登录'
+      title: 'login',
+      icon: 'international'
     },
-  },
+    component: () => import('@/views/login/index')
+  }
+]
+// 异步加载的路由
+export const asyncRouterMap = [
   {
-    path: '/',
+    path: '/faceManagement',
     component: Layout,
     name: 'faceManagement',
     redirect: '/faceManagement',
@@ -30,11 +28,11 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'faceManagement',
+        path: '/query',
         component: () => import('@/views/faceManagement/index'),
         name: 'query',
         meta: { title: '查询', icon: 'edit' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'details',
@@ -167,41 +165,9 @@ export const constantRouterMap = [
       }
     }
     ]
-  },
-
-  {
-    path: '/ceshi1',
-    component: Layout,
-    redirect: '/ceshi1/ceshi1',
-    name: 'ceshi1',
-    alwaysShow: true,
-    meta: {
-      title: '测试2',
-      icon: 'international'
-    },
-    children: [{
-      path: 'ceshi-1',
-      component: () => import('@/views/ceshi1/ceshi1'),
-      name: 'Ceshi-1',
-      meta: {
-        title: '测试-21',
-        noCache: true
-      },
-      hidden: true
-    },
-    {
-      path: 'ceshi-2',
-      component: () => import('@/views/ceshi1/ceshi2'),
-      name: 'YicaiList',
-      meta: {
-        title: '测试-22',
-        icon: 'list'
-      }
-    }
-    ]
   }
 ]
 export default new Router({
   // mode: 'history', // require service support
-  routes:constantRouterMap,constantRouterMap2
+  routes:constantRouterMap
 })
