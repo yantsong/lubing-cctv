@@ -82,7 +82,7 @@ export default {
         }
         adminApi.LogIn(Msg).then(res => {
           if (res.code=='A00000') {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/faceManagement' })
           }
         })
       })

@@ -13,7 +13,12 @@ export const constantRouterMap = [
       icon: 'international'
     },
     component: () => import('@/views/login/index')
+  },
+  {
+    path: '/',
+    redirect: '/login'
   }
+
 ]
 // 异步加载的路由
 export const asyncRouterMap = [
@@ -21,14 +26,14 @@ export const asyncRouterMap = [
     path: '/faceManagement',
     component: Layout,
     name: 'faceManagement',
-    redirect: '/faceManagement',
+    redirect: '/faceManagement/query',
     alwaysShow: true,
     meta: {
       title: '人脸库管理'
     },
     children: [
       {
-        path: '/query',
+        path: 'query',
         component: () => import('@/views/faceManagement/index'),
         name: 'query',
         meta: { title: '查询', icon: 'edit' },
@@ -93,15 +98,15 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/',
+    path: '/equipmentManage',
     component: Layout,
-    redirect: '/equipmentManage',
+    // redirect: '/equipmentManage/', // 子菜单默认路由
     alwaysShow: true,
     meta: {
       title: '设备管理'
     },
     children: [{
-      path: 'equipmentManage',
+      path: '/',
       name: 'equipmentManage',
       component: () => import('@/views/equipmentManage/index'),
       meta: {
@@ -169,5 +174,5 @@ export const asyncRouterMap = [
 ]
 export default new Router({
   // mode: 'history', // require service support
-  routes:constantRouterMap
+  routes: constantRouterMap
 })
