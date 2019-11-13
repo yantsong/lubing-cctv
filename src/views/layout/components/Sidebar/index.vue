@@ -1,6 +1,7 @@
 <template>
   <div class="menu-wrapper">
-    <img src="../../../../assets/logo.png" alt="" class="menu-logo">
+    <div class="lubin">
+      <img src="../../../../assets/logo.png" alt="" class="menu-logo">
     <a-menu
       :default-selected-keys="['1']"
       :default-open-keys="['2']"
@@ -16,6 +17,7 @@
         <sub-menu v-else-if="!item.hidden" :key="item.name" :menu-info="item" />
       </template>
     </a-menu>
+    </div>
   </div>
 </template>
 
@@ -66,6 +68,11 @@ export default {
 </script>
 <style lang="scss">
   .menu-wrapper{
+    .lubin{
+      height: 100%;
+      position: fixed;
+      width: 256px;
+    }
     width: 256px;
     height: 100vh;
     img{

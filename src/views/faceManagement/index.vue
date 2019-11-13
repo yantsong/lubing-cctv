@@ -3,7 +3,10 @@
   <div>
     <div class="search">
       <span>人脸库名称:</span>
-      <a-input placeholder="请输入" />
+      <a-input
+      v-model="searchValue"
+      placeholder="请输入"
+/>
       <a-button type="primary" @click="onSearch">
         搜索
       </a-button>
@@ -111,6 +114,7 @@ export default {
   components: {},
   data() {
     return {
+      searchValue: '',
       confirmLoading: false,
       associatedShow: false,
       addShow: false,
@@ -171,8 +175,8 @@ export default {
   created() {
     const value={}
     searchFaceDB(value).then(res => {
-      console.log(res)
-      this.facedata=res.data.data
+      console.log(res.data)
+      this.facedata=res.data
     })
     for (let i = 0; i < 20; i++) {
       this.mockData.push({
@@ -244,6 +248,16 @@ export default {
       })
     },
     onSearch() {
+      let value={
+        dbName: this.searchValue
+      }
+      if (!value.dbName) {
+        value={}
+      }
+      searchFaceDB(value).then(res => {
+        console.log(res.data)
+        this.facedata=res.data
+      })
       console.log('onSearch')
     },
     Todetail(key) {
