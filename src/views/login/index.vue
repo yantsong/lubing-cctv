@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5'
 import { isvalidUsername } from '@/utils/validate'
 import { adminApi } from '@/api/admin.js'
 function hasErrors(fieldsError) {
@@ -77,12 +78,14 @@ export default {
         }
         const Msg={
           username: values.userName,
-          // password:values.password
-          password: 'c3284d0f94606de1fd2af172aba15bf3'
+          password: md5(md5(values.password))
+          // password: 'c3284d0f94606de1fd2af172aba15bf3'
         }
         adminApi.LogIn(Msg).then(res => {
           if (res.code=='A00000') {
             this.$router.push({ path: '/faceManagement' })
+          } else {
+            this.$message.error(res.msg)
           }
         })
       })

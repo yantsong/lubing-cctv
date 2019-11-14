@@ -57,6 +57,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #FFF;
+  z-index: 10;
   img{
     width: 30px;
     height: 30px;
