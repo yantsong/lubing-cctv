@@ -225,8 +225,11 @@ export default {
 </script>
 <style lang='scss' scoped>
 .equipmentWrap {
-  margin: 50px;
   .formContent {
+    width:100%;
+    background:#fff;
+    padding:30px;
+    box-sizing:border-box;
     .forms {
       display: flex;
       justify-content: space-between;
@@ -234,7 +237,9 @@ export default {
     }
   }
   .tableContent {
-    margin-top: 50px;
+    margin-top: 20px;
+    padding:30px;
+    background:#fff;
   }
 }
 </style>

@@ -123,7 +123,6 @@ export const asyncRouterMap = [
   {
     path: '/smartSearch',
     component: Layout,
-    name: 'smartSearch',
     alwaysShow: true,
     meta: {
       title: '智能搜索'
@@ -150,7 +149,6 @@ export const asyncRouterMap = [
   {
     path: '/equipgroup',
     component: Layout,
-    name: 'equipgroup',
     alwaysShow: true,
     meta: {
       title: '设备分组'

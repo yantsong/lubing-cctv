@@ -48,12 +48,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 .eventDetailWrap {
-  margin: 50px;
   .basisMsg {
     margin: 20px 0;
     span {
       margin-right: 10px;
     }
+  }
+  .forms{
+    padding:20px;
+    background:#fff;
+    min-height:70vh;
   }
 }
 </style>
