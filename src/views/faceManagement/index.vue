@@ -275,9 +275,8 @@ export default {
 <style lang='scss' scoped>
 .search {
   width: 100%;
-  height: 100px;
+  height: 80px;
   background-color: #fff;
-  margin-bottom: 20px;
   padding-top: 30px;
   padding-left: 20px;
   text-align: left;
