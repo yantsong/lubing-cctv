@@ -67,7 +67,6 @@ export default {
 <style lang="scss">
   .menu-wrapper{
     width: 256px;
-    height: 100vh;
     img{
       width: 100%;
       height: 60px;

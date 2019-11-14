@@ -93,7 +93,7 @@ export default {
     return {
       Alltotal: 10,
       currentPage: 1,
-      tableSize: 1,
+      tableSize: 10,
       deviceName: "",
       joinTime: null,
       statusVal: null,
@@ -187,6 +187,7 @@ export default {
       adminApi.deviceList(Msg).then(res => {
         res.data.forEach((item,index) => {
           item.deviceStatus = item.deviceStatus == 1 ? "在线" : "离线";
+          item.joinTime = parseTime(item.joinTime, "{y}-{m}-{d} {h}:{i}:{s}")
           item.key=index;
         });
         this.tableData = res.data;
