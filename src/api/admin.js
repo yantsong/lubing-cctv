@@ -18,6 +18,20 @@ const adminApi={
 
   updatdeAdminUser(Msg) {
     return request.put(`/adminUser/updatdeAdminUser`,Msg)
+  },
+  eventList(Msg){
+    return request.post(`/cctv/event/eventList`,Msg)
+  },
+  deviceGroupList(Msg){
+    return request.post(`/cctv/device/deviceGroupList`,Msg)
+  },
+
+  deviceList(Msg){
+    return request.post(`/cctv/device/deviceList`,Msg)
+  },
+  editDevice(Msg){
+    return request.post(`/cctv/device/editDevice`,Msg)
   }
+
 }
 export { adminApi }

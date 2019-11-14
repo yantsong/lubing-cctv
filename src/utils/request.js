@@ -26,13 +26,14 @@ request.interceptors.request.use(config => {
 // respone拦截器
 request.interceptors.response.use(
   response => {
-    console.log('response1: ', response);
+    console.log('response: ', response);
+    
     /**
      * code为非20000是抛错 可结合自己业务进行修改
      */
     const res = response.data
     // var cookieValue=response.headers["Set-Cookie"]
-    // console.log('cookieValue: ', cookieValue);
+    // 
     // if(cookieValue){
     //   sessionStorage.setItem('cookie',cookieValue[0])
     // }

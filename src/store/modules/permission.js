@@ -11,9 +11,6 @@ const permission = {
       const asyncRouter = rMap => rMap.filter(
         route => {
           if (route.children && route.children.length) {
-            console.log(
-              route.children,'--ccccc'
-            )
             route.children = asyncRouter(route.children)
           }
           return whetherShowRoute(route,role)
@@ -21,7 +18,6 @@ const permission = {
       )
       state.asyncRouter = asyncRouter(asyncRouterMap)
       // 添加异步路由
-      console.log(asyncRouter(asyncRouterMap),'async')
       router.addRoutes(state.asyncRouter)
     }
   },
