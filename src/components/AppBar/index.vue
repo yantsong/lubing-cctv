@@ -29,6 +29,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-bar {
+  flex: 0;
   display: flex;
   align-items:flex-start;
   flex-direction: column;
@@ -37,6 +38,7 @@ export default {
   height: 48px;
   border-bottom: 1px solid #efefef;
   padding-left: 10px;
+  height: 44px;
   &-title{
     font-size: 20px;
     font-weight: 750;

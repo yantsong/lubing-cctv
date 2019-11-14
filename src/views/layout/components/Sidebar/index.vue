@@ -23,7 +23,6 @@
 import { mapGetters } from 'vuex'
 import SubMenu from './SubMenu'
 import { validateURL } from '@/utils/validate'
-// import Item from './Item'
 
 export default {
   name: 'Sidebar',

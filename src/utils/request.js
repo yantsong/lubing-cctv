@@ -5,19 +5,19 @@ import {
 import router from '../router'
 // 创建axios实例
 const request = axios.create({
-  baseURL: "http://39.105.215.119:8089/", // api的base_url
+  baseURL: 'http://39.105.215.119:8089/', // api的base_url
   withCredentials: true,
   timeout: 55000, // 请求超时时间
 })
-var cookie=sessionStorage.getItem(cookie);
+var cookie=sessionStorage.getItem(cookie)
 ;
 // request拦截器
 request.interceptors.request.use(config => {
   request.headers = {
     'Access-Control-Allow-Origin': '*',
-    "Cookie":cookie,
+    'Cookie': cookie,
     'Content-type': 'application/json'
-  };
+  }
   return config
 }, error => {
   Promise.reject(error)
@@ -31,15 +31,23 @@ request.interceptors.response.use(
     /**
      * code为非20000是抛错 可结合自己业务进行修改
      */
+    console.log('response',response)
     const res = response.data
+<<<<<<< HEAD
     // var cookieValue=response.headers["Set-Cookie"]
     // 
     // if(cookieValue){
     //   sessionStorage.setItem('cookie',cookieValue[0])
     // }
+=======
+    var cookieValue=response.headers['cookie']
+    if (cookieValue) {
+      sessionStorage.setItem('cookie',cookieValue[0])
+    }
+>>>>>>> e7e06102cf2297e59c27704c6e6ce48fdf537b8b
     if (res.code == 'E10001') {
-      message.error(res.msg,2,function(){
-        
+      message.error(res.msg,2,function() {
+
       })
       // if (res.msg == "未登录，不能访问") {
       //   setTimeout(() => {
@@ -49,7 +57,6 @@ request.interceptors.response.use(
       return Promise.reject(res)
     }
     return res
-
   },
   error => {
     return Promise.reject(error)
