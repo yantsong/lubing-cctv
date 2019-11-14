@@ -33,18 +33,11 @@ request.interceptors.response.use(
      */
     console.log('response',response)
     const res = response.data
-<<<<<<< HEAD
     // var cookieValue=response.headers["Set-Cookie"]
     // 
     // if(cookieValue){
     //   sessionStorage.setItem('cookie',cookieValue[0])
     // }
-=======
-    var cookieValue=response.headers['cookie']
-    if (cookieValue) {
-      sessionStorage.setItem('cookie',cookieValue[0])
-    }
->>>>>>> e7e06102cf2297e59c27704c6e6ce48fdf537b8b
     if (res.code == 'E10001') {
       message.error(res.msg,2,function() {
 
