@@ -48,6 +48,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+
 .navbar {
   width: calc(100vw - 255px);
   height: 60px;
