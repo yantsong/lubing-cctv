@@ -81,6 +81,7 @@ export default {
           password: 'c3284d0f94606de1fd2af172aba15bf3'
         }
         adminApi.LogIn(Msg).then(res => {
+          console.log(res,'res')
           if (res.code=='A00000') {
             this.$router.push({ path: '/faceManagement' })
           }

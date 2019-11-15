@@ -4,11 +4,15 @@
 }
 
 .main-container {
+  padding-left: 255px;
   margin-top: 60px;
   flex: 1;
 }
 
 .sidebar-container {
+  position: fixed;
+  left: 0;
+  top: 0;
   min-height: calc(100vh - 60px);
 }
 
