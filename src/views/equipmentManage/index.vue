@@ -200,7 +200,7 @@ export default {
       }
       adminApi.deviceList(Msg).then(res => {
         res.data.forEach((item,index) => {
-          item.deviceStatus = item.deviceStatus == 1 ? '在线' : '离线'
+          item.deviceStatus = item.deviceStatus === 1 ? '在线' : '离线'
           item.key=index
         })
         this.tableData = res.data
@@ -208,7 +208,7 @@ export default {
     },
     onOk(value) {},
     handleChange(val) {
-      this.statusVal = val == '在线' ? 1 : 0
+      this.statusVal = val === '在线' ? 1 : 0
     },
     handleOk() {
       this.confirmLoading = true
