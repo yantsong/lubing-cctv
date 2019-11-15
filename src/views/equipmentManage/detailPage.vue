@@ -7,7 +7,7 @@
         <span>设备名称:xxxx</span>
         <span>设备地址:xxxx</span>
       </div>
-      <a-form :form="form" layout="inline" class="forms">
+      <a-form :form="form" layout="inline" class="forms2">
         <a-form-item label="回放时间段">
           <a-range-picker
             :show-time="{ format: 'HH:mm' }"
@@ -18,9 +18,7 @@
           />
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit">
-查询
-</a-button>
+          <a-button type="primary" html-type="submit">查询</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -31,29 +29,34 @@ export default {
   data() {
     return {
       form: {
-        time: ''
+        time: ""
       }
-    }
+    };
   },
   methods: {
     onChange(value, dateString) {
-      console.log('Selected Time: ', value)
-      console.log('Formatted Selected Time: ', dateString)
+      console.log("Selected Time: ", value);
+      console.log("Formatted Selected Time: ", dateString);
     },
     onOk(value) {
-      console.log('onOk: ', value)
+      console.log("onOk: ", value);
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .detailWrap {
-  margin: 50px;
+  // margin: 50px;
   .basisMsg {
     margin: 20px 0;
     span {
       margin-right: 10px;
     }
+  }
+  .forms{
+    background:#fff;
+    min-height:70vh;
+    padding:20px;
   }
 }
 </style>

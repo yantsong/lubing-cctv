@@ -3,35 +3,32 @@
     <div class="formContent">
       <a-form :form="form" layout="inline" class="forms">
         <a-form-item label="设备名称:">
-          <a-input placeholder="请输入设备名称" />
+          <a-input v-model="deviceName" placeholder="请输入设备名称" />
         </a-form-item>
         <a-form-item label="接入时间:">
           <a-date-picker
+            v-model="joinTime"
             show-time
-            placeholder="Select Time"
-            @change="onChange"
+            placeholder="请选择时间"
+            @change="selectTime"
             @ok="onOk"
           />
         </a-form-item>
         <a-form-item label="在线状态">
-          <a-select
-            default-value="在线"
-            style="width: 120px"
-            @change="handleChange"
-          >
+          <a-select default-value="请选择状态" style="width: 120px" @change="handleChange">
             <a-select-option
               v-for="item in statusList"
               :key="item.id"
               :value="item.value"
             >
-              {{ item.value }}
-            </a-select-option>
+{{ item.value }}
+</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit">
-            查询
-          </a-button>
+          <a-button type="primary" html-type="submit" @click="getPageList">
+查询
+</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -40,6 +37,7 @@
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="tableData"
+        :pagination="false"
         bordered
       >
         <template slot="operation" slot-scope="text, record">
@@ -48,38 +46,44 @@
               <a @click="() => Todetail(record.key)">详情</a>
             </span>
             <span style="margin-left:20px">
-              <a @click="() => Toedit(record.key)">编辑</a>
+              <a @click="() => Toedit(record)">编辑</a>
             </span>
           </div>
         </template>
       </a-table>
+      <div class="paginationWrap">
+        <a-pagination
+          size="small"
+          :total="Alltotal"
+          :current="currentPage"
+          show-size-changer
+          show-quick-jumper
+          @showSizeChange="changeSize"
+          @change="changePage"
+        />
+      </div>
     </div>
     <div v-if="visible" class="dialog">
       <a-modal
-        title="新建任务"
+        title="编辑设备"
         :visible="visible"
         :confirm-loading="confirmLoading"
         @ok="handleOk"
-        @cancel="handleCancel"
+        @cancel="visible=false"
       >
-        <a-form :form="Dialogform">
+        <a-form :form="eidtForm">
           <a-form-item
             label="设备ID"
             :label-col="{ span: 5 }"
             :wrapper-col="{ span: 12 }"
           >
-            12345
+          {{ eidtForm.editdeviceId }}
           </a-form-item>
-          <a-form-item
-            label="设备名称"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 18 }"
-          >
+          <a-form-item label="设备名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
             <a-input
-              v-decorator="[
-                'name',
-                { rules: [{ required: true, message: '请输入设备名称' }] }
-              ]"
+              v-decorator="['editdeviceName', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+              placeholder="请输入设备名称"
+              @change="handleDeviceName"
             />
           </a-form-item>
           <a-form-item :wrapper-col="{ span: 18, offset: 5 }">
@@ -91,21 +95,24 @@
   </div>
 </template>
 <script>
+import { adminApi } from '@/api/admin.js'
+import { parseTime } from '../../utils/format.js'
 export default {
   data() {
     return {
+      eidtForm: this.$form.createForm(this, { editdeviceId: '',editdeviceName: '' }),
+      Alltotal: 10,
+      currentPage: 1,
+      tableSize: 1,
+      deviceName: '',
+      joinTime: null,
+      statusVal: null,
       visible: false,
       confirmLoading: false,
-      Dialogform: this.$form.createForm(this, {
-        id: 12314,
-        name: '',
-        Inptxt: 1111
-      }),
-      form: {
-        name: '',
-        Importdate: '',
-        status: ''
-      },
+      // eidtForm: {
+      //   editdeviceId: '',editdeviceName: ''
+      // },
+      form: {},
       statusList: [{ value: '在线', id: 1 }, { value: '离线', id: 2 }],
       columns: [
         {
@@ -119,11 +126,11 @@ export default {
         },
         {
           title: '设备类型',
-          dataIndex: 'deviceType'
+          dataIndex: 'deviceModel'
         },
         {
           title: '位置信息',
-          dataIndex: 'address'
+          dataIndex: 'deviceLocation'
         },
         {
           title: '在线状态',
@@ -131,7 +138,7 @@ export default {
         },
         {
           title: '设备接入时间',
-          dataIndex: 'joinTimeFrom'
+          dataIndex: 'joinTime'
         },
         {
           title: '操作',
@@ -139,28 +146,11 @@ export default {
           scopedSlots: { customRender: 'operation' }
         }
       ],
-      tableData: [
-        {
-          key: '1',
-          deviceName: 'John Brown',
-          deviceId: 32,
-          deviceType: 1,
-          address: '浙江温州',
-          deviceStatus: '在线',
-          joinTimeFrom: '2016-09-21 08:50:08'
-        },
-        {
-          key: '2',
-          deviceName: 'John Brown',
-          deviceId: 32,
-          deviceType: 1,
-          address: '浙江温州',
-          joinTimeFrom: '2016-09-21 08:50:08'
-        }
-      ]
+      tableData: []
     }
   },
   computed: {
+    // 多选
     rowSelection() {
       const { selectedRowKeys } = this
       return {
@@ -181,22 +171,52 @@ export default {
     }
   },
   created() {
+    this.getPageList()
   },
   methods: {
-    onOk(value) {
-      console.log('onOk: ', value)
+    handleDeviceName(value) {
+      this.eidtForm.setFieldsValue({
+        editdeviceName: value
+      })
     },
-    handleChange() {},
-    handleCancel() {
-      this.visible = false
+    selectTime() {},
+    changePage(page, pageSize) {
+      this.currentPage = page
+      this.getPageList()
+    },
+    changeSize(page, pageSize) {
+      this.tableSize = pageSize
+      this.getPageList()
+    },
+    getPageList() {
+      const Msg = {
+        deviceName: this.deviceName,
+        deviceStatus: this.statusVal,
+        joinTimeFrom: this.joinTime
+          ? parseTime(this.joinTime._d, '{y}-{m}-{d} {h}:{i}:{s}')
+          : null,
+        pageNo: this.currentPage,
+        pageSize: this.tableSize
+      }
+      adminApi.deviceList(Msg).then(res => {
+        res.data.forEach((item,index) => {
+          item.deviceStatus = item.deviceStatus == 1 ? '在线' : '离线'
+          item.key=index
+        })
+        this.tableData = res.data
+      })
+    },
+    onOk(value) {},
+    handleChange(val) {
+      this.statusVal = val == '在线' ? 1 : 0
     },
     handleOk() {
       this.confirmLoading = true
-      this.Dialogform.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
-        }
-      })
+      // this.Dialogform.validateFields((err, values) => {
+      //   if (!err) {
+      //     console.log('Received values of form: ', values)
+      //   }
+      // })
       //   setTimeout(() => {
       //     this.visible = false;
       //     this.confirmLoading = false;
@@ -211,22 +231,36 @@ export default {
       }
       this.$router.push('/detailPage')
     },
-    Toedit(key) {
+    Toedit(scope) {
+      // 先显示 再改变数据
       this.visible = true
-      const newData = [...this.tableData]
-      const target = newData.filter(item => key === item.key)[0]
-      if (target) {
-        target.editable = true
-        this.data = newData
-      }
+      console.log('scope: ', scope.deviceName)
+      this.eidtForm.editdeviceId = scope.deviceId
+      // 改变input 的value 看起来必须用setFieldsValue
+      // 上面的v-model改为@change了
+      this.$nextTick(
+        this.eidtForm.setFieldsValue.bind(this,{
+          editdeviceName: scope.deviceName
+        })
+      )
+
+      // const newData = [...this.tableData];
+      // const target = newData.filter(item => key === item.key)[0];
+      // if (target) {
+      //   target.editable = true;
+      //   this.data = newData;
+      // }
     }
   }
 }
 </script>
 <style lang='scss' scoped>
 .equipmentWrap {
-  margin: 50px;
   .formContent {
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
     .forms {
       display: flex;
       justify-content: space-between;
@@ -234,7 +268,14 @@ export default {
     }
   }
   .tableContent {
-    margin-top: 50px;
+    margin-top: 20px;
+    padding: 30px;
+    background: #fff;
+  }
+  .paginationWrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 </style>

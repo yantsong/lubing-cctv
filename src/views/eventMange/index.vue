@@ -238,9 +238,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .samrtSearchWrap {
-  margin: 50px;
   .tableContent {
-    margin-top: 50px;
+    margin-top: 30px;
+    background:#fff;
+    padding:20px;
+  }
+  .formContent{
+    background:#fff;
+    padding:20px;
   }
 }
 </style>
