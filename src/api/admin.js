@@ -31,6 +31,9 @@ const adminApi={
   },
   editDevice(Msg){
     return request.post(`/cctv/device/editDevice`,Msg)
+  },
+  deviceDetail(Msg){
+    return request.post(`/cctv/device/deviceDetail`,Msg)
   }
 
 }

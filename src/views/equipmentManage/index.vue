@@ -39,7 +39,7 @@
         <template slot="operation" slot-scope="text, record">
           <div class="editable-row-operations">
             <span>
-              <a @click="() => Todetail(record.key)">详情</a>
+              <a @click="() => Todetail(record)">详情</a>
             </span>
             <span style="margin-left:20px">
               <a @click="() => Toedit(record)">编辑</a>
@@ -75,7 +75,7 @@
           >{{ eidtForm.editdeviceId }}</a-form-item>
           <a-form-item label="设备名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
             <a-input
-              v-decorator="['editdeviceName', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+              v-decorator="['editdeviceName', { rules: [{ required: true, message: '请输入设备名称' }] }]"
               placeholder="请输入设备名称"
             />
           </a-form-item>
@@ -160,7 +160,6 @@ export default {
         },
         getCheckboxProps: record => ({
           props: {
-            // disabled: record.name === "Disabled User", // Column configuration not to be checked
             name: record.name
           }
         })
@@ -234,14 +233,8 @@ export default {
         }
       })
     },
-    Todetail(key) {
-      const newData = [...this.tableData];
-      const target = newData.filter(item => key === item.key)[0];
-      if (target) {
-        target.editable = true;
-        this.data = newData;
-      }
-      this.$router.push("/detailPage");
+    Todetail(scope) {
+      this.$router.push(`/detailPage?deviceId=${scope.deviceId}`);
     },
     Toedit(scope) {
       // 先显示 再改变数据
@@ -273,8 +266,7 @@ export default {
     box-sizing: border-box;
     .forms {
       display: flex;
-      justify-content: space-between;
-      width: 70%;
+      width: 100%;
     }
   }
   .tableContent {
