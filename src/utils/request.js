@@ -1,3 +1,13 @@
+// import Axios from 'axios'
+// const baseURL = 'http://39.105.215.119:8089/'
+// const request = Axios.create(
+//   {
+//     baseURL,
+//     timeout: 5000
+//   }
+// )
+// export default request
+import Router from '../router/index'
 import axios from 'axios'
 import {
   message
@@ -9,35 +19,35 @@ const request = axios.create({
   withCredentials: true,
   timeout: 55000 // 请求超时时间
 })
-var cookie=sessionStorage.getItem(cookie)
-
 // respone拦截器
 request.interceptors.response.use(
   response => {
-    console.log('response: ', response)
+    // Router.push({ name: 'login' })
 
     /**
      * code为非20000是抛错 可结合自己业务进行修改
-     */
-    console.log('response',response)
+      */
     const res = response.data
-    // if(cookieValue){
-    //   sessionStorage.setItem('cookie',cookieValue[0])
-    // }
-    if (res.code == 'E10001') {
-      message.error(res.msg,2,function() {
-
-      })
-      // if (res.msg == "未登录，不能访问") {
-      //   setTimeout(() => {
-      //     router.push('/login')
-      //   }, 2000);
-      // }
-      return Promise.reject(res)
+    console.log(response)
+    if (response.status===403) {
+      Router.push({ name: 'login' })
+    } else {
+      return res
     }
-    return res
+    // if (res.code == 'E10001') {
+    //   message.error(res.msg,2,function() {
+
+    //   })
+    //   // if (res.msg == "未登录，不能访问") {
+    //   //   setTimeout(() => {
+    //   //     router.push('/login')
+    //   //   }, 2000);
+    //   // }
+    //   return Promise.reject(res)
+    // }
   },
   error => {
+    Router.push({ name: 'login' })
     return Promise.reject(error)
   }
 )

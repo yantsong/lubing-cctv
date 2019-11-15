@@ -17,7 +17,11 @@ export const searchFaceDB = data => http({
   method: 'post',
   data
 })
-
+export const deleteFaceDB = data => http({
+  url: '/cctv/face/deleteFaceDB',
+  method: 'post',
+  data
+})
 export const login = data => http({
   url: '/cctv/user/login',
   method: 'post',
