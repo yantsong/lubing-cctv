@@ -3,9 +3,9 @@
     <div class="forms">
       <h2>设备名称</h2>
       <div class="basisMsg">
-        <span>设备ID:111</span>
-        <span>设备名称:xxxx</span>
-        <span>设备地址:xxxx</span>
+        <span>设备ID: {{detialInfo.deviceId}}</span>
+        <span>设备名称: {{detialInfo.deviceId}}</span>
+        <span>设备地址: {{detialInfo.deviceLocation}}</span>
       </div>
       <a-form :form="form" layout="inline" class="forms2">
         <a-form-item label="回放时间段">
@@ -25,13 +25,24 @@
   </div>
 </template>
 <script>
+import { adminApi } from "@/api/admin.js";
+import { parseTime } from "../../utils/format.js";
 export default {
   data() {
     return {
       form: {
         time: ""
-      }
+      },
+      detialInfo:{}
     };
+  },
+  created(){
+     let deviceId=this.$route.query.deviceId;
+      adminApi.deviceDetail({deviceId:deviceId}).then(res=>{
+        if(res.msg='成功'){
+           this.detialInfo=res.data;
+        }
+      })
   },
   methods: {
     onChange(value, dateString) {

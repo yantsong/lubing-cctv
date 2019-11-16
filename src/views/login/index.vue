@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       hasErrors,
-      form: this.$form.createForm(this, { name: 'admin',password: 'c3284d0f94606de1fd2af172aba15bf3' })
+      form: this.$form.createForm(this, { name: 'admin',password: 'admin' })
     }
   },
   mounted() {
@@ -78,8 +78,8 @@ export default {
         }
         const Msg={
           username: values.userName,
-          password: md5(md5(values.password))
-          // password: 'c3284d0f94606de1fd2af172aba15bf3'
+          // password: md5(md5(values.password))
+          password: 'c3284d0f94606de1fd2af172aba15bf3'
         }
         adminApi.LogIn(Msg).then(res => {
           console.log(res,'res')

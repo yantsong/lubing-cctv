@@ -17,6 +17,7 @@
           <a-range-picker
             :disabled-date="disabledDate"
             :disabled-time="disabledRangeTime"
+            @change="selectTime"
             :show-time="{
         hideDisabledOptions: true,
         defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')]
@@ -39,7 +40,7 @@
           </a-upload>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit">搜索</a-button>
+          <a-button type="primary" html-type="submit" @click="getpageList">搜索</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -57,6 +58,8 @@
   </div>
 </template>
 <script>
+import { adminApi } from "@/api/admin.js";
+import { parseTime } from "../../utils/format.js";
 import { TreeSelect } from "ant-design-vue";
 import moment from "moment";
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
@@ -107,6 +110,8 @@ export default {
       value: ["0-0-0"],
       treeData,
       SHOW_PARENT,
+      searchStartTime:'',
+      searchEndTime:'',
       columns: [
         {
           title: "设备ID",
@@ -156,6 +161,21 @@ export default {
     };
   },
   methods: {
+    getpageList(){
+      let Msg={
+          imgFile:'',
+          deviceGroupId:'',
+          searchFrom:this.searchStartTime,
+          searchTo:this.searchEndTime
+      }
+      adminApi.Smartsearch(Msg).then(res=>{
+
+      })
+    },
+    selectTime(date){
+      this.searchStartTime=parseTime(date[0]._d,"{y}-{m}-{d} {h}:{i}:{s}")
+      this.searchEndTime=parseTime(date[1]._d,"{y}-{m}-{d} {h}:{i}:{s}")
+    },
     handleChange(info) {
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
@@ -168,7 +188,7 @@ export default {
     },
     moment,
     onChange(value) {
-      console.log("onChange ", value);
+      console.log("onChange ", val);
       this.value = value;
     },
     range(start, end) {
