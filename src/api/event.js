@@ -27,3 +27,9 @@ export const login = data => http({
   method: 'post',
   data
 })
+
+export const exportFace = data => http({
+  url: '/cctv/face/export',
+  method: 'post',
+  data
+})
