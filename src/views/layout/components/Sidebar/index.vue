@@ -25,7 +25,6 @@
 import { mapGetters } from 'vuex'
 import SubMenu from './SubMenu'
 import { validateURL } from '@/utils/validate'
-// import Item from './Item'
 
 export default {
   name: 'Sidebar',
@@ -74,7 +73,6 @@ export default {
       width: 256px;
     }
     width: 256px;
-    height: 100vh;
     img{
       width: 100%;
       height: 60px;

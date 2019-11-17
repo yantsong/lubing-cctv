@@ -26,8 +26,9 @@
       </a-form-item>
       <a-form-item>
         <a-button
-        style="width:200px;"
+          block
           type="primary"
+          style="width:450px"
           html-type="submit"
           :disabled="hasErrors(form.getFieldsError())"
         >
@@ -50,7 +51,7 @@ export default {
   data() {
     return {
       hasErrors,
-      form: this.$form.createForm(this, { name: 'admin',password: 'c3284d0f94606de1fd2af172aba15bf3' })
+      form: this.$form.createForm(this, { name: 'admin',password: 'admin' })
     }
   },
   mounted() {
@@ -72,17 +73,17 @@ export default {
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
-        console.log('values: ', values)
         if (!err) {
           console.log('Received values of form: ', values)
         }
         const Msg={
           username: values.userName,
-          password: md5(md5(values.password))
-          // password: 'c3284d0f94606de1fd2af172aba15bf3'
+          // password: md5(md5(values.password))
+          password: 'c3284d0f94606de1fd2af172aba15bf3'
         }
         adminApi.LogIn(Msg).then(res => {
-          if (res.code=='A00000') {
+          console.log(res,'res')
+          if (res.code ==='A00000') {
             this.$router.push({ path: '/faceManagement' })
           } else {
             this.$message.error(res.msg)
@@ -93,39 +94,6 @@ export default {
   }
 }
 </script>
-
-<style rel="stylesheet/scss" lang="scss">
-$bg: #2d3a4b;
-$light_gray: #eee;
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      &:-webkit-autofill {
-        // -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: #fff !important;
-      }
-    }
-  }
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-</style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 $bg: #2d3a4b;

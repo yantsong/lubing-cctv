@@ -19,22 +19,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixin.scss";
 .app-main {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  // margin-left: 200px;
-  // margin-top: 50px;
-  padding: 0 15px;
+  padding: 0 35px;
+   background:#fafafa;
   transition: .4s;
+  @include scrollBar;
   &.app-main-collpased {
     margin-left: 70px;
   }
 }
-
 .app-content {
-  padding: 10px;
   flex: 1;
 }
 </style>

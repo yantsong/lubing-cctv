@@ -23,16 +23,16 @@
                 <a @click="() => ShowDeleteConfirm(record)">删除</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Addedit(record.key)">编辑</a>
+                <a @click="() => Addedit(record.dbId)">编辑</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Todetail(record.key)">详情</a>
+                <a @click="() => Todetail(record.dbId)">详情</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Down(record.key)">导出</a>
+                <a @click="() => Down(record.dbId)">导出</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => ToAssociated(record.key)">关联设备</a>
+                <a @click="() => ToAssociated(record.dbId)">关联设备</a>
               </span>
             </div>
           </template>
