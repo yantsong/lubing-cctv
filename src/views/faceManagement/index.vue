@@ -3,10 +3,7 @@
   <div>
     <div class="search">
       <span>人脸库名称:</span>
-      <a-input
-      v-model="searchValue"
-      placeholder="请输入"
-/>
+      <a-input v-model="searchValue" placeholder="请输入" />
       <a-button type="primary" @click="onSearch">
         搜索
       </a-button>
@@ -27,19 +24,19 @@
           <template slot="operation" slot-scope="text, record">
             <div class="editable-row-operations">
               <span>
-                <a @click="() => ShowDeleteConfirm(record.key)">删除</a>
+                <a @click="() => ShowDeleteConfirm(record.dbId)">删除</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Addedit(record.key)">编辑</a>
+                <a @click="() => Addedit(record.dbId)">编辑</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Todetail(record.key)">详情</a>
+                <a @click="() => Todetail(record.dbId)">详情</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Down(record.key)">导出</a>
+                <a @click="() => Down(record.dbId)">导出</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => ToAssociated(record.key)">关联设备</a>
+                <a @click="() => ToAssociated(record.dbId)">关联设备</a>
               </span>
             </div>
           </template>
@@ -109,7 +106,7 @@
 </template>
 
 <script>
-import { searchFaceDB,deleteFaceDB } from '@/api/event'
+import { searchFaceDB,deleteFaceDB,exportFace } from '@/api/event'
 export default {
   components: {},
   data() {
@@ -211,7 +208,14 @@ export default {
     ToAssociated(key) {
       this.associatedShow = true
     },
-    Down(key) {},
+    Down(key) {
+      const value ={
+        dbid: key
+      }
+      exportFace(value).then(res => {
+        console.log(res)
+      })
+    },
     Addcancel() {
       this.confirmLoading = false
     },
