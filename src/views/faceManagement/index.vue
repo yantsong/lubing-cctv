@@ -270,6 +270,7 @@ export default {
   height: 40px;
   background-color: #fff;
   padding-left: 20px;
+  padding-top: 20px;
   text-align: left;
   .ant-input {
     width: 200px;

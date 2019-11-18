@@ -152,6 +152,7 @@ export default {
 <style lang='scss' scoped>
 .title {
   text-align: left;
-  height: 40px;
+  height: 60px;
+  padding-top: 20px;
 }
 </style>
