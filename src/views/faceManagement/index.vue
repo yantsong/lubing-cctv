@@ -145,28 +145,18 @@ export default {
   computed: {},
 
   created() {
-    const value = {};
-    searchFaceDB(value).then(res => {
-      console.log(res.data);
-      this.facedata = res.data;
-    });
-    for (let i = 0; i < 20; i++) {
-      this.mockData.push({
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-        disabled: i % 3 < 1
-      });
-      this.oriTargetKeys = this.mockData
-        .filter(item => +item.key % 3 > 1)
-        .map(item => item.key);
-      this.targetKeys = this.oriTargetKeys;
-    }
+   this.getPageList()
   },
 
   mounted() {},
 
   methods: {
+    getPageList(){
+      const value = {};
+    searchFaceDB(value).then(res => {
+      this.facedata = res.data.list;
+    });
+    },
     handleChange(nextTargetKeys, direction, moveKeys) {
       this.targetKeys = nextTargetKeys;
       console.log("direction: ", direction);
@@ -270,7 +260,7 @@ export default {
   height: 40px;
   background-color: #fff;
   padding-left: 20px;
-  padding-top: 20px;
+  padding-top: 20px;  
   text-align: left;
   .ant-input {
     width: 200px;

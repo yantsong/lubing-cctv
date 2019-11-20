@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-    <div class="lubin">
+    <div class="navigation">
       <img src="../../../../assets/logo.png" alt="" class="menu-logo">
     <a-menu
       :default-selected-keys="['1']"
@@ -67,10 +67,13 @@ export default {
 </script>
 <style lang="scss">
   .menu-wrapper{
-    .lubin{
+    .navigation{
       height: 100%;
       position: fixed;
       width: 256px;
+      >ul{
+        overflow: auto;
+      }
     }
     width: 256px;
     img{
