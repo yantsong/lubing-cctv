@@ -160,6 +160,9 @@ export default {
       ]
     };
   },
+  created(){
+    this.getpageList();
+  },
   methods: {
     getpageList(){
       let Msg={
