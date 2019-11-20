@@ -39,7 +39,7 @@ export default {
     }
   },
   created(){
-     let eventId=this.$route.query.eventId;
+     let eventId=this.$route.params.id;
       adminApi.eventDetail({eventId:eventId}).then(res=>{
         if(res.msg='成功'){
            this.detialInfo=res.data;
@@ -51,11 +51,11 @@ export default {
       // adminApi.
     },
     onChange(value, dateString) {
-      console.log('Selected Time: ', value)
-      console.log('Formatted Selected Time: ', dateString)
+      
+      
     },
     onOk(value) {
-      console.log('onOk: ', value)
+      
     }
   }
 }

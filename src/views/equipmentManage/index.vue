@@ -82,7 +82,12 @@
             />
           </a-form-item>
           <a-form-item :wrapper-col="{ span: 18, offset: 5 }" label="安装详细地址">
-            <a-textarea   v-decorator="['editdeviceAddress', { rules: [{ required: false}] }]" placeholder="最多50个字符" :rows="4"  maxlength="50"/>
+            <a-textarea
+              v-decorator="['editdeviceAddress', { rules: [{ required: false}] }]"
+              placeholder="最多50个字符"
+              :rows="4"
+              maxlength="50"
+            />
           </a-form-item>
         </a-form>
       </a-modal>
@@ -91,6 +96,7 @@
 </template>
 <script>
 import { adminApi } from "@/api/admin.js";
+import { debounce } from "../../utils/Utility.js";
 import { parseTime } from "../../utils/format.js";
 export default {
   data() {
@@ -101,7 +107,7 @@ export default {
       }),
       Alltotal: 10,
       currentPage: 1,
-      tableSize: 1,
+      tableSize: 10,
       deviceName: "",
       joinTime: null,
       statusVal: null,
@@ -146,6 +152,14 @@ export default {
       ],
       tableData: []
     };
+  },
+  watch: {
+    deviceName(newValue) {
+      debounce(newValue => {
+        this.eventVal = newValue;
+        this.getPageList();
+      }, 300);
+    }
   },
   computed: {
     // 多选
@@ -197,11 +211,12 @@ export default {
         pageSize: this.tableSize
       };
       adminApi.deviceList(Msg).then(res => {
-        res.data.forEach((item, index) => {
+        res.data.list.forEach((item, index) => {
           item.deviceStatus = item.deviceStatus === 1 ? "在线" : "离线";
           item.key = index;
         });
-        this.tableData = res.data;
+        this.tableData = res.data.list;
+        this.Alltotal = res.data.total;
       });
     },
     onOk(value) {},
