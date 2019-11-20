@@ -72,7 +72,7 @@ export const asyncRouterMap = [
       }
     },
     {
-      path: 'eventDetail',
+      path: 'eventDetail/:id(\\d+)',
       name: 'eventDetail',
       component: () => import('@/views/eventMange/eventDetail'),
       meta: {

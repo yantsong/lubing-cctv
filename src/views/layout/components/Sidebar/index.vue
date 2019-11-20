@@ -59,7 +59,6 @@ export default {
       return validateURL(routePath)
     },
     clickLink(path) {
-      console.log(path)
       path['key'] && this.$router.push({ name: path['key'] })
     }
   }

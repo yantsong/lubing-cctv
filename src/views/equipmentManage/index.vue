@@ -102,15 +102,9 @@
               @change="handleDeviceName"
             />
           </a-form-item>
-          <a-form-item
-            :wrapper-col="{ span: 18, offset: 5 }"
-            label="安装详细地址"
-          >
+          <a-form-item :wrapper-col="{ span: 18, offset: 5 }" label="安装详细地址">
             <a-textarea
-              v-decorator="[
-                'editdeviceAddress',
-                { rules: [{ required: false }] }
-              ]"
+              v-decorator="['editdeviceAddress', { rules: [{ required: false}] }]"
               placeholder="最多50个字符"
               :rows="4"
               maxlength="50"
@@ -122,8 +116,9 @@
   </div>
 </template>
 <script>
-import { adminApi } from '@/api/admin.js';
-import { parseTime } from '../../utils/format.js';
+import { adminApi } from "@/api/admin.js";
+import { debounce } from "../../utils/Utility.js";
+import { parseTime } from "../../utils/format.js";
 export default {
   data() {
     return {
@@ -133,8 +128,8 @@ export default {
       }),
       Alltotal: 10,
       currentPage: 1,
-      tableSize: 1,
-      deviceName: '',
+      tableSize: 10,
+      deviceName: "",
       joinTime: null,
       statusVal: null,
       visible: false,
@@ -177,6 +172,14 @@ export default {
         }
       ],
       tableData: []
+    }
+  },
+  watch: {
+    deviceName(newValue) {
+      debounce(newValue => {
+        this.eventVal = newValue;
+        this.getPageList();
+      }, 300);
     }
   },
   computed: {
@@ -229,12 +232,13 @@ export default {
         pageSize: this.tableSize
       }
       adminApi.deviceList(Msg).then(res => {
-        res.data.forEach((item, index) => {
-          item.deviceStatus = item.deviceStatus === 1 ? '在线' : '离线';
-          item.key = index
-        })
-        this.tableData = res.data
-      })
+        res.data.list.forEach((item, index) => {
+          item.deviceStatus = item.deviceStatus === 1 ? "在线" : "离线";
+          item.key = index;
+        });
+        this.tableData = res.data.list;
+        this.Alltotal = res.data.total;
+      });
     },
     onOk(value) {},
     handleChange(val) {

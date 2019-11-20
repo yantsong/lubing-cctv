@@ -3,7 +3,7 @@
     <div class="formContent">
       <a-form :form="form" layout="inline" class="forms" >
         <a-form-item label="事件名称:">
-          <a-input placeholder="请输入事件名称" v-model="eventVal"/>
+          <a-input placeholder="请输入事件名称" v-model="eventVal" />
         </a-form-item>
         <a-form-item label="查询时间段:">
           <a-range-picker
@@ -39,7 +39,10 @@
         <template slot="operation" slot-scope="text, record">
           <div class="editable-row-operations">
             <span>
-              <a @click="() => Todetail(record)">详情</a>
+              <router-link :to="'/eventMange/eventDetail/'+record.eventId" class="link-type">
+              详情
+              <!-- <a @click="() => Todetail(record)">详情</a> -->
+              </router-link>
             </span>
           </div>
         </template>
@@ -60,6 +63,7 @@
 </template>
 <script>
 import { adminApi } from "@/api/admin.js";
+import {debounce} from "../../utils/Utility.js";
 import { parseTime } from "../../utils/format.js";
 import { TreeSelect } from "ant-design-vue";
 import moment from "moment";
@@ -106,7 +110,8 @@ export default {
   data() {
     return {
       currentPage:1,
-      Alltotal:10,
+      Alltotal:0,
+      pageSize:10,
       deviceVal:'',
       eventVal:'',
       searchStartTime:'',
@@ -159,6 +164,21 @@ export default {
       ]
     };
   },
+ watch: {
+  eventVal(newValue){
+    debounce(newValue=>{
+      this.eventVal=newValue;
+      this.getpageList();
+    },300)
+  },
+  deviceVal(newValue){
+    debounce(newValue=>{
+      this.deviceVal=newValue;
+      this.getpageList();
+    },300)
+  }
+},
+
   computed: {
     rowSelection() {
       const { selectedRowKeys } = this;
@@ -183,21 +203,27 @@ export default {
     this.getpageList();
   },
   methods: {
-    changePage(){
-
+   
+    changePage(page){
+      this.currentPage=page;
+      this.getpageList();
     },
-    changeSize(){},
+    changeSize(current,size){
+      this.pageSize=size;
+      this.getpageList();
+    },
      getpageList(){
       let Msg={
           // eventTimeFrom:this.searchStartTime,
           // eventTimeTo:this.searchEndTime,
-          // pageNo:this.currentPage,
+          pageNo:this.currentPage,
+          pageSize:this.pageSize,
           // eventName:this.eventVal,
           // deviceName:this.deviceVal
       }
       adminApi.eventList(Msg).then(res=>{
-        this.tableData=res.data;
-
+        this.tableData=res.data.list;
+        this.Alltotal=res.data.total;
       })
     },
     selectTime(date){
@@ -208,7 +234,7 @@ export default {
     },
     moment,
     onChange(value) {
-      console.log("onChange ", value);
+      
       this.value = value;
     },
     range(start, end) {
