@@ -1,6 +1,7 @@
 <template>
   <div class="menu-wrapper">
-    <div class="navigation">
+   <div class="outnavigation">
+      <div class="navigation">
       <img src="../../../../assets/logo.png" alt="" class="menu-logo">
     <a-menu
       :default-selected-keys="['1']"
@@ -18,6 +19,7 @@
       </template>
     </a-menu>
     </div>
+   </div>
   </div>
 </template>
 
@@ -67,15 +69,15 @@ export default {
 <style lang="scss">
 @import "@/styles/mixin.scss";
   .menu-wrapper{
+    .outnavigation{
+      position: relative;
+      overflow: hidden;
+    }
     .navigation{
       height: 100%;
       position: fixed;
       width: 256px;
-      >ul{
         overflow: auto;
-         @include scrollBar;
-      }
-
     }
     .navigation::-webkit-scrollbar {display:none}
     width: 256px;
