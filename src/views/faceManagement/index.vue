@@ -8,7 +8,7 @@
     </div>
     <div class="content">
       <div class="top-button">
-        <a-button type="primary" @click="onSearch">+新建</a-button>
+        <a-button type="primary" disabled @click="newFace">+新建</a-button>
       </div>
       <div class="tableContent">
         <a-table
@@ -62,6 +62,31 @@
             </a-form-item>
           </a-form>
         </a-modal>
+        <a-modal
+          v-model="newShow"
+          :confirm-loading="confirmLoading"
+          title="新建人脸库"
+          ok-text="确认"
+          cancel-text="取消"
+          @ok="newok"
+          @cancel="newcancel"
+        >
+          <a-form :form="newFaceValue">
+            <a-form-item label="人脸库名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
+              <a-input
+                v-decorator="[
+                  'dbName',
+                  { rules: [{ required: true, message: '人脸库的名字必填' }] }
+                ]"
+                placeholder="请输入"
+                @change="newFaceName"
+              />
+            </a-form-item>
+            <a-form-item label="人脸库名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
+              <a-textarea v-decorator="['dbDesc']" placeholder="最多50个字符" :rows="4" maxlength="50" />
+            </a-form-item>
+          </a-form>
+        </a-modal>
         <a-modal v-model="associatedShow" title="关联设备分组" ok-text="确认" cancel-text="取消">
           <p style="text-align: center">望春园1号楼人脸库</p>
           <div>
@@ -97,7 +122,15 @@ export default {
       confirmLoading: false,
       associatedShow: false,
       addShow: false,
+      newShow: false,
       Dialogform: this.$form.createForm(this, {
+        dbName: "",
+        dbDesc: "",
+        dbId: "",
+        operator: "",
+        dbType: ""
+      }),
+       newFaceValue: this.$form.createForm(this, {
         dbName: "",
         dbDesc: "",
         dbId: "",
@@ -160,6 +193,20 @@ export default {
   mounted() {},
 
   methods: {
+    newok(){
+
+    },
+    newFace(){
+      this.newShow =true;
+    },
+    newcancel(){
+      this.newShow =false;
+    },
+    newFaceName(value){
+       this.newFaceValue.setFieldsValue({
+        dbName: value
+      });
+    },
     handleFaceName(value) {
       this.Dialogform.setFieldsValue({
         dbName: value
@@ -270,7 +317,7 @@ export default {
           deleteFaceDB(data).then(res => {
             if (res.code != "A00000") {
               _this.$message.error(res.msg);
-            }else{
+            } else {
               this.getPageList();
             }
           });
@@ -288,7 +335,7 @@ export default {
         value = {};
       }
       searchFaceDB(value).then(res => {
-        this.facedata = res.data;
+        this.facedata = res.data.list;
       });
     },
     Todetail(key) {
