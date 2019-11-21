@@ -71,11 +71,8 @@ export default {
       height: 100%;
       position: fixed;
       width: 256px;
-      >ul{
-        overflow: auto;
-         @include scrollBar;
-      }
-
+      overflow: auto;
+      @include scrollBar;
     }
     .navigation::-webkit-scrollbar {display:none}
     width: 256px;
