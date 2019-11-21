@@ -73,11 +73,7 @@
             label="设备ID"
             :label-col="{ span: 5 }"
             :wrapper-col="{ span: 12 }"
-          >{{ eidtForm.editdeviceId }}
-            <a-input
-              v-decorator="['editdeviceId', { rules: [{ required: false}] }]"
-              disabled
-            /></a-form-item>
+          >{{ eidtForm.editdeviceId }}</a-form-item>
           <a-form-item label="设备名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
             <a-input
               v-decorator="['editdeviceName', { rules: [{ required: true, message: 'Please input your note!' }] }]"
@@ -106,9 +102,8 @@ export default {
   data() {
     return {
       eidtForm: this.$form.createForm(this, {
-        editdeviceId: "",
         editdeviceName: "",
-        editdeviceAddress:''
+        editdeviceAddress:""
       }),
       Alltotal: 10,
       currentPage: 1,
@@ -261,13 +256,12 @@ export default {
     Toedit(scope) {
       // 先显示 再改变数据
       this.visible = true;
-      // this.eidtForm.editdeviceId = scope.deviceId;
+      this.eidtForm.editdeviceId = scope.deviceId;
       // 改变input 的value 看起来必须用setFieldsValue
       // 上面的v-model改为@change了
       let msg = {
         editdeviceAddress: scope.deviceLocation,
-        editdeviceName: scope.deviceName,
-        editdeviceId: scope.deviceId
+        editdeviceName: scope.deviceName
       };
       this.$nextTick(() => this.eidtForm.setFieldsValue(msg));
       // const newData = [...this.tableData];
