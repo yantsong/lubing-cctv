@@ -116,20 +116,20 @@
   </div>
 </template>
 <script>
-import { adminApi } from "@/api/admin.js";
-import { debounce } from "../../utils/Utility.js";
-import { parseTime } from "../../utils/format.js";
+import { adminApi } from '@/api/admin.js';
+import { debounce } from '../../utils/Utility.js';
+import { parseTime } from '../../utils/format.js';
 export default {
   data() {
     return {
       eidtForm: this.$form.createForm(this, {
-        editdeviceName: "",
-        editdeviceAddress:""
+        editdeviceName: '',
+        editdeviceAddress: ''
       }),
       Alltotal: 10,
       currentPage: 1,
       tableSize: 10,
-      deviceName: "",
+      deviceName: '',
       joinTime: null,
       statusVal: null,
       visible: false,
@@ -174,14 +174,6 @@ export default {
       tableData: []
     }
   },
-  watch: {
-    deviceName(newValue) {
-      debounce(newValue => {
-        this.eventVal = newValue;
-        this.getPageList();
-      }, 300);
-    }
-  },
   computed: {
     // 多选
     rowSelection() {
@@ -201,6 +193,14 @@ export default {
           }
         })
       }
+    }
+  },
+  watch: {
+    deviceName(newValue) {
+      debounce(newValue => {
+        this.eventVal = newValue;
+        this.getPageList();
+      }, 300);
     }
   },
   created() {
@@ -233,12 +233,12 @@ export default {
       }
       adminApi.deviceList(Msg).then(res => {
         res.data.list.forEach((item, index) => {
-          item.deviceStatus = item.deviceStatus === 1 ? "在线" : "离线";
-          item.key = index;
-        });
-        this.tableData = res.data.list;
-        this.Alltotal = res.data.total;
-      });
+          item.deviceStatus = item.deviceStatus === 1 ? '在线' : '离线';
+          item.key = index
+        })
+        this.tableData = res.data.list
+        this.Alltotal = res.data.total
+      })
     },
     onOk(value) {},
     handleChange(val) {
@@ -283,8 +283,8 @@ export default {
       const msg = {
         editdeviceAddress: scope.deviceLocation,
         editdeviceName: scope.deviceName
-      };
-      this.$nextTick(() => this.eidtForm.setFieldsValue(msg));
+      }
+      this.$nextTick(() => this.eidtForm.setFieldsValue(msg))
       // const newData = [...this.tableData];
       // const target = newData.filter(item => key === item.key)[0];
       // if (target) {
