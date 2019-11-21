@@ -77,6 +77,7 @@ export default {
       }
 
     }
+    .navigation::-webkit-scrollbar {display:none}
     width: 256px;
     img{
       width: 100%;
