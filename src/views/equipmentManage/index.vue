@@ -116,9 +116,9 @@
   </div>
 </template>
 <script>
-import { adminApi } from '@/api/admin.js';
-import { debounce } from '../../utils/Utility.js';
-import { parseTime } from '../../utils/format.js';
+import { adminApi } from '@/api/admin.js'
+import { debounce } from '../../utils/Utility.js'
+import { parseTime } from '../../utils/format.js'
 export default {
   data() {
     return {
@@ -198,9 +198,9 @@ export default {
   watch: {
     deviceName(newValue) {
       debounce(newValue => {
-        this.eventVal = newValue;
-        this.getPageList();
-      }, 300);
+        this.eventVal = newValue
+        this.getPageList()
+      }, 300)
     }
   },
   created() {
@@ -233,7 +233,7 @@ export default {
       }
       adminApi.deviceList(Msg).then(res => {
         res.data.list.forEach((item, index) => {
-          item.deviceStatus = item.deviceStatus === 1 ? '在线' : '离线';
+          item.deviceStatus = item.deviceStatus === 1 ? '在线' : '离线'
           item.key = index
         })
         this.tableData = res.data.list
