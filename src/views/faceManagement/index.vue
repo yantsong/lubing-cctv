@@ -23,7 +23,7 @@
                 <a @click="() => ShowDeleteConfirm(record)">删除</a>
               </span>
               <span style="margin-left:20px">
-                <a @click="() => Addedit(record.dbId)">编辑</a>
+                <a @click="() => Toedit(record)">编辑</a>
               </span>
               <span style="margin-left:20px">
                 <a @click="() => Todetail(record.dbId)">详情</a>
@@ -40,7 +40,7 @@
         <a-modal
           v-model="addShow"
           :confirm-loading="confirmLoading"
-          title="新建人脸库"
+          title="修改人脸库"
           ok-text="确认"
           cancel-text="取消"
           @ok="Addok"
@@ -50,14 +50,15 @@
             <a-form-item label="人脸库名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
               <a-input
                 v-decorator="[
-                  'name',
+                  'dbName',
                   { rules: [{ required: true, message: '人脸库的名字必填' }] }
                 ]"
                 placeholder="请输入"
+                @change="handleFaceName"
               />
             </a-form-item>
             <a-form-item label="人脸库名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-              <a-textarea v-decorator="['content']" placeholder="最多50个字符" :rows="4" maxlength="50" />
+              <a-textarea v-decorator="['dbDesc']" placeholder="最多50个字符" :rows="4" maxlength="50" />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -82,7 +83,12 @@
 </template>
 
 <script>
-import { searchFaceDB, deleteFaceDB, exportFace } from "@/api/event";
+import {
+  searchFaceDB,
+  deleteFaceDB,
+  exportFace,
+  editFaceDB
+} from "@/api/event";
 export default {
   components: {},
   data() {
@@ -92,8 +98,11 @@ export default {
       associatedShow: false,
       addShow: false,
       Dialogform: this.$form.createForm(this, {
-        name: "",
-        content: ""
+        dbName: "",
+        dbDesc: "",
+        dbId: "",
+        operator: "",
+        dbType: ""
       }),
       mockData: [],
       oriTargetKeys: [],
@@ -145,17 +154,22 @@ export default {
   computed: {},
 
   created() {
-   this.getPageList()
+    this.getPageList();
   },
 
   mounted() {},
 
   methods: {
-    getPageList(){
+    handleFaceName(value) {
+      this.Dialogform.setFieldsValue({
+        dbName: value
+      });
+    },
+    getPageList() {
       const value = {};
-    searchFaceDB(value).then(res => {
-      this.facedata = res.data.list;
-    });
+      searchFaceDB(value).then(res => {
+        this.facedata = res.data.list;
+      });
     },
     handleChange(nextTargetKeys, direction, moveKeys) {
       this.targetKeys = nextTargetKeys;
@@ -188,22 +202,57 @@ export default {
     Addcancel() {
       this.confirmLoading = false;
     },
-    Addok() {
+    Addok(e) {
+      e.preventDefault();
       this.confirmLoading = true;
       this.Dialogform.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          const msg = {
+            dbName: values.dbName,
+            dbId: this.Dialogform.dbId,
+            dbType: this.Dialogform.dbType,
+            dbDesc: values.dbDesc
+          };
+          editFaceDB(msg).then(res => {
+            if (res.code == "A00000") {
+              this.$message.success("编辑成功");
+              this.addShow = false;
+              this.confirmLoading = false;
+              this.getPageList();
+            } else {
+              this.$message.error("编辑失败:" + res.msg);
+            }
+          });
         }
       });
+
+      // this.confirmLoading = true;
+      // this.Dialogform.validateFields((err, values) => {
+      //   if (!err) {
+      //     console.log("Received values of form: ", values);
+      //   }
+      // });
     },
-    Addedit(key) {
+    Toedit(value) {
       this.addShow = true;
-      const newData = [...this.facedata];
-      const target = newData.filter(item => key === item.key)[0];
-      if (target) {
-        target.editable = true;
-        this.data = newData;
-      }
+      this.Dialogform.dbId = value.dbId;
+      this.Dialogform.operator = value.operator;
+      this.Dialogform.dbType = value.dbType;
+      const msg = {
+        dbName: value.dbName,
+        dbDesc: value.dbDesc
+      };
+      this.$nextTick(() => {
+        this.Dialogform.setFieldsValue(msg);
+      });
+
+      // this.addShow = true;
+      // const newData = [...this.facedata];
+      // const target = newData.filter(item => key === item.key)[0];
+      // if (target) {
+      //   target.editable = true;
+      //   this.data = newData;
+      // }
     },
     ShowDeleteConfirm(value) {
       let _this = this;
@@ -221,6 +270,8 @@ export default {
           deleteFaceDB(data).then(res => {
             if (res.code != "A00000") {
               _this.$message.error(res.msg);
+            }else{
+              this.getPageList();
             }
           });
         },
@@ -237,10 +288,8 @@ export default {
         value = {};
       }
       searchFaceDB(value).then(res => {
-        console.log(res.data);
         this.facedata = res.data;
       });
-      console.log("onSearch");
     },
     Todetail(key) {
       const newData = [...this.facedata];
@@ -260,7 +309,7 @@ export default {
   height: 40px;
   background-color: #fff;
   padding-left: 20px;
-  padding-top: 20px;  
+  padding-top: 20px;
   text-align: left;
   .ant-input {
     width: 200px;

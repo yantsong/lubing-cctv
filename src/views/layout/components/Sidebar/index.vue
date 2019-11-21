@@ -70,10 +70,9 @@ export default {
       height: 100%;
       position: fixed;
       width: 256px;
-      >ul{
-        overflow: auto;
-      }
+       overflow: auto;
     }
+    .navigation::-webkit-scrollbar {display:none}
     width: 256px;
     img{
       width: 100%;

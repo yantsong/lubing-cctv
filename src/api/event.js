@@ -32,3 +32,9 @@ export const exportFace = data => http({
   method: 'post',
   data
 })
+export const editFaceDB = data => http({
+  url: '/cctv/face/editFaceDB',
+  method: 'post',
+  data
+})
+
