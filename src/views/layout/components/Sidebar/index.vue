@@ -65,6 +65,7 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "@/styles/mixin.scss";
   .menu-wrapper{
     .navigation{
       height: 100%;
@@ -72,7 +73,9 @@ export default {
       width: 256px;
       >ul{
         overflow: auto;
+         @include scrollBar;
       }
+
     }
     width: 256px;
     img{
