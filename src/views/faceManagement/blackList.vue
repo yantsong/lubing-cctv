@@ -126,6 +126,8 @@ export default {
 </script>
 <style lang='scss' scoped>
 .title {
-  text-align: left;
+    text-align: left;
+  height: 60px;
+  padding-top: 20px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-    <div class="lubin">
+    <div class="navigation">
       <img src="../../../../assets/logo.png" alt="" class="menu-logo">
     <a-menu
       :default-selected-keys="['1']"
@@ -59,19 +59,25 @@ export default {
       return validateURL(routePath)
     },
     clickLink(path) {
-      console.log(path)
       path['key'] && this.$router.push({ name: path['key'] })
     }
   }
 }
 </script>
 <style lang="scss">
+@import "@/styles/mixin.scss";
   .menu-wrapper{
-    .lubin{
+    .navigation{
       height: 100%;
       position: fixed;
       width: 256px;
+      >ul{
+        overflow: auto;
+         @include scrollBar;
+      }
+
     }
+    .navigation::-webkit-scrollbar {display:none}
     width: 256px;
     img{
       width: 100%;

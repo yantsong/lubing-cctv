@@ -1,11 +1,16 @@
 <template>
   <div class="navbar">
-    <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container" />
+    <hamburger
+      :toggle-click="toggleSideBar"
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+    />
 
     <div class="right-menu">
       <a-dropdown class="avatar-container right-menu-item" :trigger="['click']">
-        <div class="avatar-wrapper">
+        <!-- <div class="avatar-wrapper">
           <img src="../../../assets/admin.png" class="user-avatar">
+          <p>admin</p>
           <i class="el-icon-caret-bottom" />
         </div>
         <a-menu-item slot="dropdown">
@@ -16,40 +21,55 @@
           <a-menu-item divided>
             <span style="display:block;">{{ '退出' }}</span>
           </a-menu-item>
-        </a-menu-item>
+        </a-menu-item>-->
+        <a class="ant-dropdown-link" href="#">
+          admin
+        </a>
+        <a-menu slot="overlay" @click="onClick">
+          <a-menu-item key="1">
+            <a >退出登录</a>
+          </a-menu-item>
+        </a-menu>
       </a-dropdown>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Hamburger from '@/components/Hamburger'
-import Cookies from 'js-cookie'
+import { mapGetters } from "vuex";
+import { adminApi } from '@/api/admin'
+import Hamburger from "@/components/Hamburger";
+import Cookies from "js-cookie";
 
 export default {
   components: {
     Hamburger
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'name',
-      'avatar',
-      'device'
-    ])
+    ...mapGetters(["sidebar", "name", "avatar", "device"])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('toggleSideBar')
+      this.$store.dispatch("toggleSideBar");
+    },
+    onClick(key){
+      adminApi.Logout().then(res =>{
+        if(res.code =='A00000'){
+      this.$router.push('/login')
+        }else{
+            this.$message.error(res.msg)
+        }
+      })
     }
+
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 
 .navbar {
+ 
   width: calc(100vw - 255px);
   height: 60px;
   line-height: 60px;
@@ -58,9 +78,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFF;
+  background-color: #fff;
   z-index: 10;
-  img{
+  img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -76,8 +96,8 @@ export default {
   }
   .right-menu {
     height: 100%;
-    &:focus{
-     outline: none;
+    &:focus {
+      outline: none;
     }
     .right-menu-item {
       display: inline-block;
@@ -86,7 +106,7 @@ export default {
     .screenfull {
       height: 20px;
     }
-    .international{
+    .international {
       vertical-align: top;
     }
     .theme-switch {
@@ -94,8 +114,8 @@ export default {
     }
     .avatar-container {
       height: 50px;
-      margin-right: 30px;
-     .avatar-wrapper {
+      margin-right: 50px;
+      .avatar-wrapper {
         cursor: pointer;
         margin-top: 5px;
         position: relative;
@@ -112,7 +132,7 @@ export default {
           font-size: 12px;
         }
       }
-   }
+    }
   }
 }
 </style>

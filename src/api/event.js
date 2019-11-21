@@ -27,3 +27,14 @@ export const login = data => http({
   method: 'post',
   data
 })
+export const exportFace = data => http({
+  url: '/cctv/face/export',
+  method: 'post',
+  data
+})
+export const editFaceDB = data => http({
+  url: '/cctv/face/editFaceDB',
+  method: 'post',
+  data
+})
+

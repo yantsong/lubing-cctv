@@ -161,7 +161,7 @@ export default {
     };
   },
   created(){
-    this.getpageList();
+    // this.getpageList();
   },
   methods: {
     getpageList(){

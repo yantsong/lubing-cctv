@@ -3,7 +3,7 @@
     <div class="formContent">
       <a-form :form="form" layout="inline" class="forms">
         <a-form-item label="设备名称:">
-          <a-input v-model="deviceName" placeholder="请输入设备名称"/>
+          <a-input v-model="deviceName" placeholder="请输入设备名称" />
         </a-form-item>
         <a-form-item label="接入时间:">
           <a-date-picker
@@ -15,16 +15,24 @@
           />
         </a-form-item>
         <a-form-item label="在线状态">
-          <a-select default-value="请选择状态" style="width: 120px" @change="handleChange">
+          <a-select
+            default-value="请选择状态"
+            style="width: 120px"
+            @change="handleChange"
+          >
             <a-select-option
               v-for="item in statusList"
               :key="item.id"
               :value="item.value"
-            >{{ item.value }}</a-select-option>
+            >
+              {{ item.value }}
+            </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit" @click="getPageList">查询</a-button>
+          <a-button type="primary" html-type="submit" @click="getPageList">
+            查询
+          </a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -64,19 +72,32 @@
         title="编辑设备"
         :visible="visible"
         :confirm-loading="confirmLoading"
-        @ok="handleOk"
         width="520px"
-        @cancel="visible=false"
+        @ok="handleOk"
+        @cancel="visible = false"
       >
         <a-form :form="eidtForm">
           <a-form-item
             label="设备ID"
             :label-col="{ span: 5 }"
             :wrapper-col="{ span: 12 }"
-          >{{ eidtForm.editdeviceId }}</a-form-item>
-          <a-form-item label="设备名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
+          >
+            {{ eidtForm.editdeviceId }}
+          </a-form-item>
+          <a-form-item
+            label="设备名称"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 18 }"
+          >
             <a-input
-              v-decorator="['editdeviceName', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+              v-decorator="[
+                'editdeviceName',
+                {
+                  rules: [
+                    { required: true, message: 'Please input your note!' }
+                  ]
+                }
+              ]"
               placeholder="请输入设备名称"
               @change="handleDeviceName"
             />
@@ -117,41 +138,41 @@ export default {
       //   editdeviceId: '',editdeviceName: ''
       // },
       form: {},
-      statusList: [{ value: "在线", id: 1 }, { value: "离线", id: 2 }],
+      statusList: [{ value: '在线', id: 1 }, { value: '离线', id: 2 }],
       columns: [
         {
-          title: "设备名称",
-          dataIndex: "deviceName",
-          scopedSlots: { customRender: "name" }
+          title: '设备名称',
+          dataIndex: 'deviceName',
+          scopedSlots: { customRender: 'name' }
         },
         {
-          title: "设备ID",
-          dataIndex: "deviceId"
+          title: '设备ID',
+          dataIndex: 'deviceId'
         },
         {
-          title: "设备类型",
-          dataIndex: "deviceModel"
+          title: '设备类型',
+          dataIndex: 'deviceModel'
         },
         {
-          title: "位置信息",
-          dataIndex: "deviceLocation"
+          title: '位置信息',
+          dataIndex: 'deviceLocation'
         },
         {
-          title: "在线状态",
-          dataIndex: "deviceStatus"
+          title: '在线状态',
+          dataIndex: 'deviceStatus'
         },
         {
-          title: "设备接入时间",
-          dataIndex: "joinTime"
+          title: '设备接入时间',
+          dataIndex: 'joinTime'
         },
         {
-          title: "操作",
-          dataIndex: "operation",
-          scopedSlots: { customRender: "operation" }
+          title: '操作',
+          dataIndex: 'operation',
+          scopedSlots: { customRender: 'operation' }
         }
       ],
       tableData: []
-    };
+    }
   },
   watch: {
     deviceName(newValue) {
@@ -164,14 +185,14 @@ export default {
   computed: {
     // 多选
     rowSelection() {
-      const { selectedRowKeys } = this;
+      const { selectedRowKeys } = this
       return {
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(
             `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
+            'selectedRows: ',
             selectedRows
-          );
+          )
         },
         getCheckboxProps: record => ({
           props: {
@@ -179,37 +200,37 @@ export default {
             name: record.name
           }
         })
-      };
+      }
     }
   },
   created() {
-    this.getPageList();
+    this.getPageList()
   },
   methods: {
     handleDeviceName(value) {
       this.eidtForm.setFieldsValue({
         editdeviceName: value
-      });
+      })
     },
     selectTime() {},
     changePage(page, pageSize) {
-      this.currentPage = page;
-      this.getPageList();
+      this.currentPage = page
+      this.getPageList()
     },
     changeSize(page, pageSize) {
-      this.tableSize = pageSize;
-      this.getPageList();
+      this.tableSize = pageSize
+      this.getPageList()
     },
     getPageList() {
       const Msg = {
         deviceName: this.deviceName,
         deviceStatus: this.statusVal,
         joinTimeFrom: this.joinTime
-          ? parseTime(this.joinTime._d, "{y}-{m}-{d} {h}:{i}:{s}")
+          ? parseTime(this.joinTime._d, '{y}-{m}-{d} {h}:{i}:{s}')
           : null,
         pageNo: this.currentPage,
         pageSize: this.tableSize
-      };
+      }
       adminApi.deviceList(Msg).then(res => {
         res.data.list.forEach((item, index) => {
           item.deviceStatus = item.deviceStatus === 1 ? "在线" : "离线";
@@ -221,45 +242,45 @@ export default {
     },
     onOk(value) {},
     handleChange(val) {
-      this.statusVal = val === "在线" ? 1 : 0;
+      this.statusVal = val === '在线' ? 1 : 0
     },
     handleOk(e) {
-      e.preventDefault();
-      this.confirmLoading = true;
+      e.preventDefault()
+      this.confirmLoading = true
       this.eidtForm.validateFields((err, values) => {
         if (!err) {
-          let msg = {
+          const msg = {
             deviceName: values.editdeviceName,
             deviceId: this.eidtForm.editdeviceId,
             location: values.editdeviceAddress
-          };
+          }
           adminApi.editDevice(msg).then(res => {
-            if (res.code == "A00000") {
-              this.$message.success("编辑成功");
-              this.visible = false;
-              this.confirmLoading = false;
-              this.getPageList();
+            if (res.code == 'A00000') {
+              this.$message.success('编辑成功')
+              this.visible = false
+              this.confirmLoading = false
+              this.getPageList()
             }
-          });
+          })
         }
-      });
+      })
     },
     Todetail(key) {
-      const newData = [...this.tableData];
-      const target = newData.filter(item => key === item.key)[0];
+      const newData = [...this.tableData]
+      const target = newData.filter(item => key === item.key)[0]
       if (target) {
-        target.editable = true;
-        this.data = newData;
+        target.editable = true
+        this.data = newData
       }
-      this.$router.push("/detailPage");
+      this.$router.push('/detailPage')
     },
     Toedit(scope) {
       // 先显示 再改变数据
-      this.visible = true;
-      this.eidtForm.editdeviceId = scope.deviceId;
+      this.visible = true
+      this.eidtForm.editdeviceId = scope.deviceId
       // 改变input 的value 看起来必须用setFieldsValue
       // 上面的v-model改为@change了
-      let msg = {
+      const msg = {
         editdeviceAddress: scope.deviceLocation,
         editdeviceName: scope.deviceName
       };
@@ -272,7 +293,7 @@ export default {
       // }
     }
   }
-};
+}
 </script>
 <style lang='scss' scoped>
 .equipmentWrap {
