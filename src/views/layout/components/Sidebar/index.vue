@@ -65,12 +65,17 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "@/styles/mixin.scss";
   .menu-wrapper{
     .navigation{
       height: 100%;
       position: fixed;
       width: 256px;
-       overflow: auto;
+      >ul{
+        overflow: auto;
+         @include scrollBar;
+      }
+
     }
     .navigation::-webkit-scrollbar {display:none}
     width: 256px;
