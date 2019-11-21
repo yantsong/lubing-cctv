@@ -60,7 +60,7 @@ export default {
             this.$message.error(res.msg)
         }
       })
-    }
+    } 
 
   }
 };

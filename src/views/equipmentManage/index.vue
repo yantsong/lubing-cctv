@@ -123,8 +123,8 @@ export default {
   data() {
     return {
       eidtForm: this.$form.createForm(this, {
-        editdeviceId: '',
-        editdeviceName: ''
+        editdeviceName: "",
+        editdeviceAddress:""
       }),
       Alltotal: 10,
       currentPage: 1,
@@ -282,10 +282,9 @@ export default {
       // 上面的v-model改为@change了
       const msg = {
         editdeviceAddress: scope.deviceLocation,
-        editdeviceName: scope.deviceName,
-        editdeviceId: scope.deviceId
-      }
-      this.$nextTick(() => this.eidtForm.setFieldsValue(msg))
+        editdeviceName: scope.deviceName
+      };
+      this.$nextTick(() => this.eidtForm.setFieldsValue(msg));
       // const newData = [...this.tableData];
       // const target = newData.filter(item => key === item.key)[0];
       // if (target) {
